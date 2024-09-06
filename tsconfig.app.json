@@ -18,13 +18,15 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@moduleGarage/*": ["./src/modules/garage/*"],
+      "@moduleWinners/*": ["./src/modules/winners/*"],
+    }
   },
-  "paths": {
-    "@/*": ["./src/*"],
-    "@modules/*": ["./src/modules/*"],
-    "@moduleGarage/*": ["./src/modules/garage/*"],
-    "@moduleWinners/*": ["./src/modules/winners/*"],
-  },
+
   "include": ["src/**/*.tsx", "src/**/*.ts",]
 }
