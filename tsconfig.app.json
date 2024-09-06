@@ -20,5 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "paths": {
+    "@/*": ["./src/*"],
+    "@modules/*": ["./src/modules/*"],
+    "@moduleGarage/*": ["./src/modules/garage/*"],
+    "@moduleWinners/*": ["./src/modules/winners/*"],
+  },
+  "include": ["src/**/*.tsx", "src/**/*.ts",]
 }
