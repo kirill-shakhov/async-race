@@ -20,11 +20,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "paths": {
       "@/*": ["./src/*"],
       "@modules/*": ["./src/modules/*"],
       "@moduleGarage/*": ["./src/modules/garage/*"],
-      "@moduleWinners/*": ["./src/modules/winners/*"],
+      "@moduleWinners/*": ["./src/modules/winners/*"]
     }
   },
 
