@@ -1,1 +1,1 @@
-export {default as UiProgressCircular} from './UiProgressCircular.tsx'
+export { default as UiProgressCircular } from './UiProgressCircular.tsx';
