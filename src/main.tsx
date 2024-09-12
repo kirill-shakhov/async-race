@@ -13,6 +13,6 @@ createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <StrictMode>
       <RouterProvider router={router}/>
-    </StrictMode>,
+    </StrictMode>
   </Provider>
 );
