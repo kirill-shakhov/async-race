@@ -1,11 +1,8 @@
-import AppHeader from "@/shared/components/AppHeader/AppHeader.tsx";
-
 const GarageView = () => {
   return (
-    <>
-      <AppHeader/>
+    <div className="garage-view">
       GarageView
-    </>
+    </div>
   )
 }
 
