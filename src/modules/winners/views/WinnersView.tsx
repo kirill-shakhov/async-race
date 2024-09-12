@@ -2,10 +2,9 @@ import AppHeader from "@/shared/components/AppHeader/AppHeader.tsx";
 
 const WinnersView = () => {
   return (
-    <>
-      <AppHeader/>
+    <div>
       WinnersView
-    </>
+    </div>
   )
 }
 
