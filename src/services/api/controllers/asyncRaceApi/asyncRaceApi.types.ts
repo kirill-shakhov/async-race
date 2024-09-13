@@ -5,6 +5,11 @@ export interface CarsResponse {
   cars: Car[];
 }
 
+export interface CarsQueryResponse {
+  cars: Car[];
+  totalCount: number;
+}
+
 export interface GetCarsQueryParams {
   page?: number;
   limit?: number;
