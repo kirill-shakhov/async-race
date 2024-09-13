@@ -3,24 +3,34 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface GarageState {
   cars: Car[] | null;
+  totalCount: number;
 }
 
 const initialState: GarageState = {
-  cars: []
+  cars: [],
+  totalCount: 0,
 }
 
 const garageSlice = createSlice({
   name: 'garage',
   initialState,
   reducers: {
-    setCars: (state, action: PayloadAction<GarageState>) => {
-      state.cars = action.payload.cars;
+    setCars: (state, action: PayloadAction<Car[]>) => {
+      state.cars = action.payload;
+    },
+    clearCars: (state) => {
+      state.cars = [];
+    },
+    setTotalCount: (state, action: PayloadAction<number>) => {
+      state.totalCount = action.payload;
     }
   }
 })
 
 export const {
-  setCars
+  setCars,
+  setTotalCount,
+  clearCars
 } = garageSlice.actions;
 
 export default garageSlice.reducer;
