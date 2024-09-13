@@ -1,13 +1,16 @@
 // store.ts
 import {configureStore} from '@reduxjs/toolkit';
 import garageReducer from '@moduleGarage/store';
+import {asyncRaceApi} from "@/services/api/controllers/asyncRaceApi";
 
 export const store = configureStore({
   reducer: {
     garage: garageReducer,
+    [asyncRaceApi.reducerPath]: asyncRaceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
+      asyncRaceApi.middleware
     )
   ,
 });
