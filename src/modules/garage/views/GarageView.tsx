@@ -1,8 +1,13 @@
 import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import CarGarageRaceManager from "@moduleGarage/components/CarGarageRaceManager/CarGarageRaceManager.tsx";
+import {getRandomColor} from "@/utils/getRandomColor/getRandomColor.ts";
+import {createRandomCar} from "@/utils/createRandomCar/createRandomCar.ts";
+import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 
 const GarageView = () => {
+  const {handleGenerateCars} = useGarageView();
+
   return (
     <div className="garage-view flex flex-col gap-y-14">
 
@@ -47,7 +52,7 @@ const GarageView = () => {
         </div>
 
         <div className="flex mt-4 md:mt-0">
-          <UiButton block>
+          <UiButton block onClick={handleGenerateCars}>
             Generate Cars
           </UiButton>
 
@@ -59,9 +64,6 @@ const GarageView = () => {
 
 
         <CarGarageRaceManager/>
-        <CarGarageRaceManager/>
-        <CarGarageRaceManager/>
-
       </div>
     </div>
   )
