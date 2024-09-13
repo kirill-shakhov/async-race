@@ -1,7 +1,7 @@
 import {asyncRaceApi} from '@/services/api/controllers/asyncRaceApi';
 
 import {
-  CarDriveData,
+  CarDriveData, CarsQueryResponse,
   CarsResponse,
   CarStatus,
   GetCarsQueryParams,
@@ -11,9 +11,12 @@ import {Car, CarWithoutId} from '@moduleGarage/static/types';
 
 export const carApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCars: builder.query<CarsResponse, GetCarsQueryParams>({
-      query: ({page = 1, limit = 10}) =>
+    getCars: builder.query<CarsQueryResponse, GetCarsQueryParams>({
+      query: ({page = 1, limit = 7}) =>
         `/garage?_page=${page}&_limit=${limit}`,
+      transformResponse(cars: Car[], meta) {
+        return {cars, totalCount: Number(meta?.response?.headers.get('X-Total-Count'))}
+      }
     }),
     getCar: builder.query<Car, Id>({
       query: (id) => `/garage/${id}`,
