@@ -11,7 +11,7 @@ export const createRandomCar = (): CarWithoutId => {
   const randomColor = getRandomColor();
 
   return {
-    name: `${randomFirstPart}${randomSecondPart}`,
+    name: `${randomFirstPart} ${randomSecondPart}`,
     color: randomColor,
   }
 }
