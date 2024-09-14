@@ -1,12 +1,36 @@
 import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import CarGarageRaceManager from "@moduleGarage/components/CarGarageRaceManager/CarGarageRaceManager.tsx";
-import {getRandomColor} from "@/utils/getRandomColor/getRandomColor.ts";
-import {createRandomCar} from "@/utils/createRandomCar/createRandomCar.ts";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
+import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
+import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
+import {setCars, setTotalCount} from "@moduleGarage/store";
+import {useEffect} from "react";
+import UiPagination from "@/shared/components/UI/UiPagination/UiPagination.tsx";
 
 const GarageView = () => {
-  const {handleGenerateCars} = useGarageView();
+  const {
+    handleGenerateCars,
+    isLoadingCreatedCars
+  } = useGarageView();
+
+  const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
+
+  const dispatch = useAppDispatch();
+  const stateCars = useAppSelector(state => state.garage.cars);
+  const stateTotalCount = useAppSelector(state => state.garage.totalCount);
+
+  useEffect(() => {
+    if (carsWithTotalCount && stateCars.length === 0) {
+      dispatch(setCars(carsWithTotalCount.cars));
+    }
+  }, [carsWithTotalCount?.cars, stateCars?.length, dispatch])
+
+  useEffect(() => {
+    if (carsWithTotalCount?.totalCount !== 0) {
+      dispatch(setTotalCount(carsWithTotalCount?.totalCount))
+    }
+  }, [carsWithTotalCount?.totalCount, dispatch]);
 
   return (
     <div className="garage-view flex flex-col gap-y-14">
@@ -52,7 +76,7 @@ const GarageView = () => {
         </div>
 
         <div className="flex mt-4 md:mt-0">
-          <UiButton block onClick={handleGenerateCars}>
+          <UiButton loading={isLoadingCreatedCars} block onClick={handleGenerateCars}>
             Generate Cars
           </UiButton>
 
@@ -60,10 +84,23 @@ const GarageView = () => {
       </div>
 
       <div className="garage-view__garage flex flex-col gap-7">
-        <h2 className="text-4xl font-bold dark:text-white">Garage</h2>
+        <h2 className="text-4xl font-bold dark:text-white">Garage [{stateTotalCount}] </h2>
 
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : stateCars.length > 0 ? (
+          stateCars.map((car) => (
+            <div key={car.id}>
+              <CarGarageRaceManager car={car}/>
+            </div>
+          ))
+        ) : (
+          <div>No cars available</div>
+        )}
 
-        <CarGarageRaceManager/>
+        <div className="flex justify-end">
+          <UiPagination/>
+        </div>
       </div>
     </div>
   )
