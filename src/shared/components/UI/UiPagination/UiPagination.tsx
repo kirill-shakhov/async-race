@@ -12,7 +12,6 @@ const UiPagination = () => {
 
   return (
     <nav aria-label="Page navigation example">
-      {currentPage}
       <ul className="flex items-center -space-x-px h-8 text-sm">
         <li>
           <a
