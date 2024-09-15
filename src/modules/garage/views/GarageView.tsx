@@ -7,11 +7,19 @@ import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {setCars, setTotalCount} from "@moduleGarage/store";
 import {useEffect} from "react";
 import UiPagination from "@/shared/components/UI/UiPagination/UiPagination.tsx";
+import {UiInput} from "@/shared/components/UI/UiInput";
 
 const GarageView = () => {
   const {
-    handleGenerateCars,
-    isLoadingCreatedCars
+    values, 
+    errors, 
+    handleChange, 
+    handleSubmit, 
+
+    handleGenerateCars, 
+    isLoadingCreatedCars,
+
+    sendCarDeleteRequest
   } = useGarageView();
 
   const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
@@ -48,21 +56,40 @@ const GarageView = () => {
 
         <div className="forms-group flex flex-col gap-2 md:flex-row flex-wrap">
 
-          <form className="flex flex-col gap-2 md:flex-row">
-            <input type="text" name="carName" placeholder="Type car brand"/>
-            <input
-              type="color"
-              className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
-              id="hs-color-input"
-              value="#2563eb"
-              title="Choose your color"
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 md:flex-row">
+            <UiInput
+              name="name"
+              type="text"
+              placeholder="Enter car name"
+              value={values.name}
+              onChange={handleChange}
+              errors={errors.name}
             />
+            <div>
+              <input
+                type="color"
+                name='color'
+                className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                id="hs-color-input"
+                value={values.color}
+                onChange={handleChange}
+                title="Choose your color"
+              />
+              {errors.color}
+            </div>
 
             <UiButton type="submit">Create</UiButton>
           </form>
 
           <form className="flex flex-col gap-2 md:flex-row">
-            <input type="text" name="carName" placeholder="Type car brand"/>
+
+            <UiInput
+              name="carBrand"
+              type="text"
+              placeholder='Type car brand'
+
+            />
+
             <input
               type="color"
               className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
