@@ -80,7 +80,8 @@ const GarageView = () => {
             <UiButton type="submit">Create</UiButton>
           </form>
 
-          <form className="flex flex-col gap-2 md:flex-row">
+          <form className="flex flex-col gap-2 md:flex-row" onSubmit={(e) => {e.preventDefault();
+            console.log('create func to update car info');}}>
 
             <UiInput
               name="carBrand"
