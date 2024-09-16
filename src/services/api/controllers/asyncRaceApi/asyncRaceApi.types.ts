@@ -18,7 +18,10 @@ export interface GetCarsQueryParams {
 
 export type Id = number;
 
-export type CarStatus = 'started' | 'stopped';
+export enum CarStatus {
+  STARTED = 'started',
+  STOPPED = 'stopped'
+}
 
 export interface CarDriveData {
   velocity: number;
