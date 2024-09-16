@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/garage" replace={true}/>,
+        element: <Navigate to="/garage" replace/>,
       },
       ...modules.router]
   },
