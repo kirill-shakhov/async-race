@@ -95,6 +95,7 @@ const GarageView = () => {
               id="hs-color-input"
               value="#2563eb"
               title="Choose your color"
+              onChange={() => { console.log('create func to updating car info'); }}
             />
 
             <UiButton type="submit">Update</UiButton>
