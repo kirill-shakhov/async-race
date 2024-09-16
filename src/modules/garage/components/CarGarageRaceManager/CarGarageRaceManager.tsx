@@ -1,6 +1,6 @@
 import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
-import Car from "@moduleGarage/components/Car/Car.tsx";
+import {Car} from "@moduleGarage/components";
 
 interface CarGarageRaceManagerProps {
   car: {

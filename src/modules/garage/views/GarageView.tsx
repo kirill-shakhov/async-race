@@ -1,22 +1,21 @@
-import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
-import CarGarageRaceManager from "@moduleGarage/components/CarGarageRaceManager/CarGarageRaceManager.tsx";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {setCars, setTotalCount} from "@moduleGarage/store";
 import {useEffect} from "react";
-import UiPagination from "@/shared/components/UI/UiPagination/UiPagination.tsx";
-import {UiInput} from "@/shared/components/UI/UiInput";
+
+import {UiButton, UiInput, UiPagination} from "@/shared/components";
+import {CarGarageRaceManager} from "@moduleGarage/components";
 
 const GarageView = () => {
   const {
-    values, 
-    errors, 
-    handleChange, 
-    handleSubmit, 
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
 
-    handleGenerateCars, 
+    handleGenerateCars,
     isLoadingCreatedCars,
 
     sendCarDeleteRequest

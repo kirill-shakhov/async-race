@@ -1,4 +1,4 @@
-import AppHeader from '@/shared/components/AppHeader/AppHeader.tsx';
+import { AppHeader } from "@/shared/components";
 import { Outlet } from 'react-router-dom';
 
 const AppLayout = () => {
