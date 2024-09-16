@@ -33,7 +33,7 @@ const UiButton: FC<UiButtonProps> = ({
       ) : (
         <button
           className={rootClasses}
-          type={type ? type : 'button'}
+          type={type ?? 'button'}
           disabled={disabled || loading}
           {...props}
         >
