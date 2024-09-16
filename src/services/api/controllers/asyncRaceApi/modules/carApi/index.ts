@@ -7,7 +7,6 @@ import {
 
 import {
   CarDriveData, CarsQueryResponse,
-  CarsResponse,
   CarStatus,
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
