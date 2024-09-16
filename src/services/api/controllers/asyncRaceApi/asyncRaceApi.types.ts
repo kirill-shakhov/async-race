@@ -1,6 +1,6 @@
-import {Car} from '@moduleGarage/static/types';
-import {Winner} from "@moduleWinners/static/types";
-import {PaginationParams, SortableParams} from '@/shared/types';
+import type {Car} from '@moduleGarage/static/types';
+import type {Winner} from "@moduleWinners/static/types";
+import type {PaginationParams, SortableParams} from "@/shared/types";
 
 export interface CarsResponse {
   cars: Car[];

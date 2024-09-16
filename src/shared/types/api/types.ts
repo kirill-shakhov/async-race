@@ -1,4 +1,4 @@
-import {SortDirection} from "@/shared/types/api.enums.ts";
+import {SortDirection} from "./enums.ts";
 
 export interface PaginationParams {
   page?: number;

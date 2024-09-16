@@ -12,7 +12,7 @@ import {
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
 import {Car, CarWithoutId} from '@moduleGarage/static/types';
-import {PaginationParams} from '@/shared/types';
+import {PaginationParams} from "@/shared/types";
 
 export const carApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
