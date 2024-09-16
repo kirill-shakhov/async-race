@@ -1,6 +1,11 @@
 import {asyncRaceApi} from '@/services/api/controllers/asyncRaceApi';
 
 import {
+  DEFAULT_GARAGE_CARS_PER_PAGE,
+  INITIAL_GARAGE_PAGE,
+} from './CarApi.constants.ts';
+
+import {
   CarDriveData, CarsQueryResponse,
   CarsResponse,
   CarStatus,
@@ -12,7 +17,7 @@ import {Car, CarWithoutId} from '@moduleGarage/static/types';
 export const carApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
     getCars: builder.query<CarsQueryResponse, GetCarsQueryParams>({
-      query: ({page = 1, limit = 7}) =>
+      query: ({page = INITIAL_GARAGE_PAGE, limit = DEFAULT_GARAGE_CARS_PER_PAGE}) =>
         `/garage?_page=${page}&_limit=${limit}`,
       transformResponse(cars: Car[], meta) {
         return {cars, totalCount: Number(meta?.response?.headers.get('X-Total-Count'))}

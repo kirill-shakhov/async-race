@@ -1,0 +1,2 @@
+export const DEFAULT_GARAGE_CARS_PER_PAGE = 7;
+export const INITIAL_GARAGE_PAGE = 1;
