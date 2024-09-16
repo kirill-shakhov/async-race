@@ -9,14 +9,14 @@ import {
   CarDriveData, CarsQueryResponse,
   CarsResponse,
   CarStatus,
-  GetCarsQueryParams,
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
 import {Car, CarWithoutId} from '@moduleGarage/static/types';
+import {PaginationParams} from '@/shared/types';
 
 export const carApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCars: builder.query<CarsQueryResponse, GetCarsQueryParams>({
+    getCars: builder.query<CarsQueryResponse, PaginationParams>({
       query: ({page = INITIAL_GARAGE_PAGE, limit = DEFAULT_GARAGE_CARS_PER_PAGE}) =>
         `/garage?_page=${page}&_limit=${limit}`,
       transformResponse(cars: Car[], meta) {

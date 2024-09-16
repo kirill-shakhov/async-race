@@ -1,5 +1,6 @@
 import {Car} from '@moduleGarage/static/types';
 import {Winner} from "@moduleWinners/static/types";
+import { PaginationParams } from '@/shared/types';
 
 export interface CarsResponse {
   cars: Car[];
@@ -29,9 +30,7 @@ export interface WinnersResponse {
 }
 
 
-export interface GetWinnersQueryParams {
-  page?: number;
-  limit?: number;
+export type GetWinnersQueryParams = PaginationParams &  {
   sort?: string;
   order?: 'ASC' | 'DESC';
 }
