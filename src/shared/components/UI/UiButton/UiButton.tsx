@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { UiButtonProps } from './index.ts';
 import { UiProgressCircular } from '../UiProgressCircular';
 
 import { useUiButton } from './useUiButton.ts';
+import { UiButtonSize, UiButtonTheme } from './UiButton.enums.ts';
+import { UiButtonProps } from './UiButton.types.ts';
 
 const UiButton: FC<UiButtonProps> = ({
   children,
@@ -10,17 +11,17 @@ const UiButton: FC<UiButtonProps> = ({
   loading,
   disabled,
   type,
-  size = 'sm',
+  size = UiButtonSize.SM,
   block = false,
-  theme = 'primary',
+  theme = UiButtonTheme.PRIMARY,
   ...props
 }) => {
   const { rootClasses } = useUiButton({
     loading,
     disabled,
     block,
-    size: size as 'sm' | 'md' | 'lg',
-    theme: theme as 'danger' | 'primary' | 'secondary',
+    size,
+    theme,
   });
 
   return (

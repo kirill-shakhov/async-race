@@ -1,25 +1,28 @@
-import { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from 'react';
+import {ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode} from 'react';
+import {UiButtonSize, UiButtonTheme} from './UiButton.enums.ts';
 
 interface DefaultProps {
   children?: ReactNode;
   loading?: boolean;
-  size?: 'sm' | 'md' | 'lg';
   block?: boolean;
-  theme?: 'danger' | 'primary' | 'secondary';
+  size?: UiButtonSize;
+  theme?: UiButtonTheme;
 }
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    DefaultProps {}
+    DefaultProps {
+}
 
 export interface AnchorProps
   extends AnchorHTMLAttributes<HTMLAnchorElement>,
-    DefaultProps {}
+    DefaultProps {
+}
 
 export type UiButtonProps = ButtonProps &
   AnchorProps & {
-    href?: string;
-  };
+  href?: string;
+};
 
 export type UiButtonHookProps = DefaultProps & {
   disabled?: boolean;
