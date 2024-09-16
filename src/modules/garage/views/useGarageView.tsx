@@ -6,10 +6,10 @@ import {
   useDeleteCarMutation,
   useGetCarsQuery
 } from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {createRandomCar} from "@/utils/createRandomCar/createRandomCar.ts";
 import {setCars, setTotalCount} from "@moduleGarage/store";
 import {useAppDispatch} from "@/store/hooks.ts";
 import {ChangeEvent, useState} from "react";
+import {createRandomCar} from "@/utils";
 
 interface ErrorState {
   name: string;
@@ -20,7 +20,7 @@ interface ErrorState {
 const useGarageView = () => {
   const [createCar] = useCreateCarMutation();
   const {refetch} = useGetCarsQuery({page: 1, limit: 7});
-  const [deleteCar]= useDeleteCarMutation();
+  const [deleteCar] = useDeleteCarMutation();
 
   const [isLoadingCreatedCars, setIsLoadingCreatedCars] = useState(false);
 
@@ -120,9 +120,7 @@ const useGarageView = () => {
 
         setIsLoadingCreatedCars(false);
       }
-    }
-
-    catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }
