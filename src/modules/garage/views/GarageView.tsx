@@ -10,15 +10,19 @@ import {CarGarageRaceManager} from "@moduleGarage/components";
 
 const GarageView = () => {
   const {
-    values,
-    errors,
+    createCarValues,
     handleChange,
     handleSubmit,
 
     handleGenerateCars,
     isLoadingCreatedCars,
 
-    sendCarDeleteRequest
+    updateCarValues,
+    handleUpdateChange,
+    handleUpdateSubmit,
+
+    createCarErrors,
+    updateCarErrors,
   } = useGarageView();
 
   const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
@@ -60,44 +64,48 @@ const GarageView = () => {
               name="name"
               type="text"
               placeholder="Enter car name"
-              value={values.name}
+              value={createCarValues.name}
               onChange={handleChange}
-              errors={errors.name}
+              errors={createCarErrors.name}
             />
             <div>
               <input
                 type="color"
                 name='color'
                 className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
-                id="hs-color-input"
-                value={values.color}
+                value={createCarValues.color}
                 onChange={handleChange}
                 title="Choose your color"
               />
-              {errors.color}
+              {createCarErrors.color}
             </div>
 
             <UiButton type="submit">Create</UiButton>
           </form>
 
-          <form className="flex flex-col gap-2 md:flex-row" onSubmit={(e) => {e.preventDefault();
-            console.log('create func to update car info');}}>
+          <form className="flex flex-col gap-2 md:flex-row" onSubmit={handleUpdateSubmit}>
 
             <UiInput
-              name="carBrand"
+              name="name"
               type="text"
-              placeholder='Type car brand'
+              placeholder="Enter car name"
+              value={updateCarValues.name}
+              onChange={handleUpdateChange}
+              errors={updateCarErrors.name}
 
             />
 
-            <input
-              type="color"
-              className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
-              id="hs-color-input"
-              value="#2563eb"
-              title="Choose your color"
-              onChange={() => { console.log('create func to updating car info'); }}
-            />
+            <div>
+              <input
+                type="color"
+                name='color'
+                className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                value={updateCarValues.color}
+                onChange={handleUpdateChange}
+                title="Choose your color"
+              />
+              {updateCarErrors.color}
+            </div>
 
             <UiButton type="submit">Update</UiButton>
           </form>
