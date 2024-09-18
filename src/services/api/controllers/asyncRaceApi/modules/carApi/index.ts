@@ -63,6 +63,7 @@ export const carApi = asyncRaceApi.injectEndpoints({
 
 export const {
   useGetCarsQuery,
+  useLazyGetCarsQuery,
   useGetCarQuery,
   useCreateCarMutation,
   useDeleteCarMutation,
