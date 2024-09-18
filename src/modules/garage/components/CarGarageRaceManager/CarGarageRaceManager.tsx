@@ -1,15 +1,24 @@
 import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import {Car} from "@moduleGarage/components";
+import useCarGarageRaceManager from "@moduleGarage/components/CarGarageRaceManager/useCarGarageRaceManager.tsx";
+import {useAppSelector} from "@/store/hooks.ts";
 
 interface CarGarageRaceManagerProps {
   car: {
+    id: number;
     name: string;
     color: string;
   }
 }
 
 const CarGarageRaceManager = ({car}: CarGarageRaceManagerProps) => {
+  let selectedCar = useAppSelector(state => state.garage.selectedCar);
+
+  let selectedCarId = selectedCar ? selectedCar.id : null;
+
+  const {sendCarDeleteRequest, selectCar} = useCarGarageRaceManager()
+
   return (
     <div className='border-y-2 pt-2 border-gray-300 flex flex-col gap-7'>
 
@@ -17,13 +26,18 @@ const CarGarageRaceManager = ({car}: CarGarageRaceManagerProps) => {
         <div className='flex gap-2'>
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
+              className={selectedCarId === car.id ? 'active' : ''}
               size='sm'
               block
+              onClick={() => {
+                selectCar(car)
+              }}
             >
               select
             </UiButton>
 
             <UiButton
+              onClick={() => sendCarDeleteRequest(+car.id)}
               size='sm'
               block
               theme="danger">
