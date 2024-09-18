@@ -1,0 +1,42 @@
+import {setCars, setTotalCount, setSelectedCar} from "@moduleGarage/store";
+import {useDeleteCarMutation, useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
+
+import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
+
+import {DEFAULT_GARAGE_CARS_PER_PAGE} from "@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts";
+import {Car} from "@moduleGarage/static/types";
+
+const useCarGarageRaceManager = () => {
+  const dispatch = useAppDispatch();
+
+  const [deleteCar] = useDeleteCarMutation();
+  let currentPage = useAppSelector(state => state.garage.currentPage);
+  const {refetch} = useGetCarsQuery({page: currentPage, limit: DEFAULT_GARAGE_CARS_PER_PAGE});
+
+  const sendCarDeleteRequest = async (id: number): Promise<void> => {
+    try {
+      await deleteCar(id);
+
+      const refetchResponse = await refetch();
+
+      if (refetchResponse.data) {
+        const {cars, totalCount} = refetchResponse.data;
+        dispatch(setCars(cars));
+        dispatch(setTotalCount(totalCount));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const selectCar = (car: Car) => {
+    dispatch(setSelectedCar(car));
+  }
+
+  return {
+    sendCarDeleteRequest,
+    selectCar
+  }
+}
+
+export default useCarGarageRaceManager;
