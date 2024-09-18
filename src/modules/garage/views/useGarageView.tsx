@@ -1,16 +1,15 @@
 import * as Yup from 'yup';
 
-import {Car, CarWithoutId} from "@moduleGarage/static/types";
+import {CarWithoutId} from "@moduleGarage/static/types";
 import {
   useCreateCarMutation,
-  useDeleteCarMutation,
-  useGetCarsQuery, useUpdateCarMutation
+  useUpdateCarMutation
 } from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {clearCars, setCars, setTotalCount} from "@moduleGarage/store";
-import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
+import {useAppSelector} from "@/store/hooks.ts";
 import {ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import {createRandomCar} from "@/utils";
 import {Id} from "@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts";
+import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
 
 interface ErrorState {
   name: string;
@@ -21,11 +20,9 @@ interface ErrorState {
 const useGarageView = () => {
 
   let selectedCar = useAppSelector(state => state.garage.selectedCar);
-  let currentPage = useAppSelector(state => state.garage.currentPage);
   let selectedCarId = selectedCar ? selectedCar.id : null;
 
   const [createCar] = useCreateCarMutation();
-  const {refetch} = useGetCarsQuery({page: 1, limit: 7});
   const [updateCar] = useUpdateCarMutation();
 
   const [createCarValues, setCreateCarValues] = useState({name: '', color: '#ffffff'});
@@ -34,9 +31,8 @@ const useGarageView = () => {
   const [updateCarValues, setUpdateCarValues] = useState<CarWithoutId>({name: '', color: '#ffffff'});
   const [isLoadingCreatedCars, setIsLoadingCreatedCars] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const fetchAndUpdateCars = useFetchAndUpdateCars();
 
-  //generate 100 random cars
   const sendCarCreateRequest = async (car: CarWithoutId): Promise<void> => {
     try {
       await createCar(car);
@@ -52,15 +48,9 @@ const useGarageView = () => {
 
     try {
       await Promise.all(promises);
-      const refetchResponse = await refetch();
+      await fetchAndUpdateCars();
 
-      if (refetchResponse.data) {
-        const {cars, totalCount} = refetchResponse.data;
-        dispatch(setCars(cars));
-        dispatch(setTotalCount(totalCount));
-
-        setIsLoadingCreatedCars(false);
-      }
+      setIsLoadingCreatedCars(false);
     } catch (e) {
       console.error(e);
       setIsLoadingCreatedCars(false);
@@ -68,7 +58,6 @@ const useGarageView = () => {
   }
 
 
-  // create a car
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, 'Name must be at least 2 characters')
@@ -130,17 +119,12 @@ const useGarageView = () => {
     try {
       await validationSchema.validate(values, {abortEarly: false});
       await action(values);
+
       resetValues();
       setErrors({name: '', color: ''});
 
-      await dispatch(clearCars());
-      const refetchResponse = await refetch({ currentPage });
+      await fetchAndUpdateCars();
 
-      if (refetchResponse.data) {
-        const { cars, totalCount } = refetchResponse.data;
-        dispatch(setCars(cars));
-        dispatch(setTotalCount(totalCount));
-      }
     } catch (err: any) {
       if (err instanceof Yup.ValidationError) {
         const validationErrors: Partial<ErrorState> = {};
