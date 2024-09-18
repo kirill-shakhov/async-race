@@ -1,14 +1,15 @@
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {useState} from "react";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {setCars, setTotalCount, clearCars} from "@moduleGarage/store";
+import {setCars, setTotalCount, setCurrentPage, clearCars} from "@moduleGarage/store";
 
 const useUiPagination = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const {refetch} = useGetCarsQuery({page: currentPage, limit: 7});
   const dispatch = useAppDispatch();
 
+  let currentPage = useAppSelector(state => state.garage.currentPage);
   let stateTotalCount = useAppSelector(state => state.garage.totalCount);
+
+  const {refetch} = useGetCarsQuery({page: currentPage, limit: 7});
+
   let pagesCount = Math.ceil(stateTotalCount / 7);
 
 
@@ -30,14 +31,14 @@ const useUiPagination = () => {
   const handlePageClick = async (page: number): Promise<void> => {
     if (page === currentPage) return;
 
-    setCurrentPage(page);
+    dispatch(setCurrentPage(page));
     await getNewCarsList(page);
   };
 
   const handlePreviousPage = async (): Promise<void> => {
     if (currentPage > 1) {
       const newPage = currentPage - 1;
-      setCurrentPage(newPage);
+      dispatch(setCurrentPage(newPage));
       await getNewCarsList(newPage);
     }
   };
@@ -45,7 +46,7 @@ const useUiPagination = () => {
   const handleNextPage = async (): Promise<void> => {
     if (currentPage < pagesCount) {
       const newPage = currentPage + 1;
-      setCurrentPage(newPage);
+      dispatch(setCurrentPage(newPage));
       await getNewCarsList(newPage);
     }
   };
