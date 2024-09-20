@@ -51,11 +51,17 @@ export const carApi = asyncRaceApi.injectEndpoints({
         method: 'PATCH',
       }),
     }),
-    driveCar: builder.mutation<{ status: string }, Id>({
+    driveCar: builder.mutation<{ success: boolean; code: number }, Id>({
       query: (id) => ({
         url: `/engine?id=${id}&status=drive`,
         method: 'PATCH',
       }),
+      transformResponse: (response: { success: boolean }, meta) => {
+        return {
+          ...response,
+          code: meta?.response?.status || 500
+        };
+      },
     }),
   }),
   overrideExisting: false,
