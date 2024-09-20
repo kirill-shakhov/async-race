@@ -4,6 +4,7 @@ import { UiProgressCircular } from '../UiProgressCircular';
 import { useUiButton } from './useUiButton.ts';
 import { UiButtonSize, UiButtonTheme } from './UiButton.enums.ts';
 import { UiButtonProps } from './UiButton.types.ts';
+import classNames from "classnames";
 
 const UiButton: FC<UiButtonProps> = ({
   children,
@@ -14,6 +15,7 @@ const UiButton: FC<UiButtonProps> = ({
   size = UiButtonSize.SM,
   block = false,
   theme = UiButtonTheme.PRIMARY,
+  className,
   ...props
 }) => {
   const { rootClasses } = useUiButton({
@@ -24,15 +26,18 @@ const UiButton: FC<UiButtonProps> = ({
     theme,
   });
 
+  const combinedClasses = classNames(rootClasses, className);
+
+
   return (
     <>
       {href ? (
-        <a className={rootClasses} href={href} target={'_blank'} {...props}>
+        <a className={combinedClasses} href={href} target={'_blank'} {...props}>
           {children}
         </a>
       ) : (
         <button
-          className={rootClasses}
+          className={combinedClasses}
           type={type ?? 'button'}
           disabled={disabled || loading}
           {...props}

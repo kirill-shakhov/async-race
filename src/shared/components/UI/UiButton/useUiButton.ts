@@ -12,7 +12,7 @@ export const useUiButton = (props: UiButtonHookProps) => {
       classNames(
         'flex justify-center items-center px-3 py-1.5 font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
         {
-          'ui-button_disabled bg-indigo-300 hover:bg-indigo-300': disabled,
+          'opacity-50 cursor-not-allowed': disabled,
           'w-full': block,
           'text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900':
             theme === 'danger',
