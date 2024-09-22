@@ -1,11 +1,13 @@
 // store.ts
 import {configureStore} from '@reduxjs/toolkit';
 import garageReducer from '@moduleGarage/store';
+import winnersReducer from '@moduleWinners/store';
 import {asyncRaceApi} from "@/services/api/controllers/asyncRaceApi";
 
 export const store = configureStore({
   reducer: {
     garage: garageReducer,
+    winners: winnersReducer,
     [asyncRaceApi.reducerPath]: asyncRaceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
