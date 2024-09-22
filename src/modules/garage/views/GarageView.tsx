@@ -33,6 +33,7 @@ const GarageView = () => {
   const stateCars = useAppSelector(state => state.garage.cars);
   const stateTotalCount = useAppSelector(state => state.garage.totalCount);
   const carRefs = useRef<{ [index: number]: { id: number, ref: HTMLElement | null } }>({});
+  const isRaceStarted = useAppSelector(state => state.garage.isRaceStarted);
 
   const setCarRef = (ref: HTMLElement | null, id: number, index: number) => {
     if (ref) {
@@ -98,7 +99,10 @@ const GarageView = () => {
 
       <div className="garage-view__pannel flex flex-col md:flex-row justify-between flex-wrap md:gap-2">
         <div className="flex gap-2 flex-row">
-          <UiButton onClick={() => race()}>
+          <UiButton
+            onClick={() => race()}
+            disabled={isRaceStarted}
+          >
             Race <PlayIcon className="ml-1 size-3"/>
           </UiButton>
 
@@ -130,7 +134,10 @@ const GarageView = () => {
               {createCarErrors.color}
             </div>
 
-            <UiButton type="submit">Create</UiButton>
+            <UiButton
+              type="submit"
+              disabled={isRaceStarted}
+            >Create</UiButton>
           </form>
 
           <form className="flex flex-col gap-2 md:flex-row" onSubmit={handleUpdateSubmit}>
@@ -157,12 +164,19 @@ const GarageView = () => {
               {updateCarErrors.color}
             </div>
 
-            <UiButton type="submit">Update</UiButton>
+            <UiButton
+              type="submit"
+              disabled={isRaceStarted}
+            >Update</UiButton>
           </form>
         </div>
 
         <div className="flex mt-4 md:mt-0">
-          <UiButton loading={isLoadingCreatedCars} block onClick={handleGenerateCars}>
+          <UiButton
+            loading={isLoadingCreatedCars}
+            block
+            disabled={isRaceStarted}
+            onClick={handleGenerateCars}>
             Generate Cars
           </UiButton>
 
