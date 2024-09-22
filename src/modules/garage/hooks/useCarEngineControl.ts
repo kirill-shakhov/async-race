@@ -29,12 +29,12 @@ export const useCarEngineControl = () => {
         const maxDistance = containerWidth - carWidth - initialPosition;
         const animationDistance = Math.min(distance, maxDistance);
 
-        startAnimation(carRef, animationDistance, time);
+        startAnimation(carRef, animationDistance, time, id);
 
         const driveResponse = await driveCar(id);
         if (!driveResponse?.data?.success) {
           console.log('сломалась')
-          stopAnimation();
+          stopAnimation(id);
         }
       }
     } catch (e) {
@@ -47,7 +47,7 @@ export const useCarEngineControl = () => {
     try {
       await startStopCarEngine({id, status: CarStatus.STOPPED});
       setEngineStatus(false);
-      stopAnimation();
+      stopAnimation(id);
       carRef.style.transform = 'translateX(0px)';
     } catch (e) {
       console.log(e);
