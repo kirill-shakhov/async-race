@@ -41,10 +41,6 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
 
   return (
     <div className='border-y-2 pt-2 border-gray-300 flex flex-col gap-7'>
-      {/*{JSON.stringify(isRaceStarted)}*/}
-      engineStatus:{JSON.stringify(engineStatus)}
-      <div></div>
-      isRaceStarted:{JSON.stringify(isRaceStarted)}
       <div className="flex gap-2">
         <div className='flex gap-2'>
           <div className="buttons-group flex flex-col gap-2">
@@ -52,6 +48,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               className={selectedCarId === car.id ? 'active' : ''}
               size='sm'
               block
+              disabled={engineStatus || isRaceStarted }
               onClick={() => selectCar(car)}
             >
               select
@@ -61,6 +58,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               onClick={() => sendCarDeleteRequest(+car.id)}
               size='sm'
               block
+              disabled={engineStatus || isRaceStarted }
               theme="danger">
               remove
             </UiButton>
@@ -68,19 +66,19 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
 
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
-              disabled={engineStatus || isRaceStarted }
               onClick={() => startCarEngine(car.id, carRef.current!)}
               size='sm'
               block
+              disabled={engineStatus || isRaceStarted }
             >
               start <PlayIcon className="ml-1 size-3"/>
             </UiButton>
 
             <UiButton
-              disabled={engineStatus && isRaceStarted }
               onClick={() => stopCarEngine(car.id, carRef.current!)}
               size='sm'
               block
+              disabled={engineStatus && isRaceStarted }
               theme="danger">
               stop
               <XMarkIcon className="ml-1 size-3"/>
