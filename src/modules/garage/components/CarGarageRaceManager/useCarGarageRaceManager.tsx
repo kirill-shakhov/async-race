@@ -13,7 +13,6 @@ import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
 const useCarGarageRaceManager = () => {
   const dispatch = useAppDispatch();
   const [deleteCar] = useDeleteCarMutation();
-  const {startCarEngine, stopCarEngine, engineStatus} = useCarEngineControl();
 
   let currentPage = useAppSelector(state => state.garage.currentPage);
   const {refetch} = useGetCarsQuery({page: currentPage, limit: DEFAULT_GARAGE_CARS_PER_PAGE});
@@ -42,9 +41,6 @@ const useCarGarageRaceManager = () => {
   return {
     sendCarDeleteRequest,
     selectCar,
-    engineStatus,
-    startCarEngine,
-    stopCarEngine,
   }
 }
 
