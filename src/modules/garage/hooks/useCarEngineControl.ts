@@ -5,12 +5,12 @@ import {
 } from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useState} from "react";
 import useCarAnimation from "@moduleGarage/hooks/useCarAnimation.ts";
+import {useAppSelector} from "@/store/hooks.ts";
 
 export const useCarEngineControl = () => {
   const [startStopCarEngine] = useStartStopCarEngineMutation();
   const [driveCar] = useDriveCarMutation();
   const {startAnimation, stopAnimation} = useCarAnimation();
-
   const [engineStatus, setEngineStatus] = useState(false);
 
 
@@ -29,7 +29,11 @@ export const useCarEngineControl = () => {
         const maxDistance = containerWidth - carWidth - initialPosition;
         const animationDistance = Math.min(distance, maxDistance);
 
-        startAnimation(carRef, animationDistance, time, id);
+        startAnimation(
+          carRef,
+          animationDistance,
+          time,
+          id);
 
         const driveResponse = await driveCar(id);
         if (!driveResponse?.data?.success) {
