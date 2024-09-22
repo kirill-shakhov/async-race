@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Winner} from "@moduleWinners/static/types";
+import {Winner, WInnerWithoutWins} from "@moduleWinners/static/types";
 
 interface WinnersState {
   currentWinner: Winner | null;
+  raceResult: WInnerWithoutWins[] | [];
 }
 
 const initialState: WinnersState = {
-  currentWinner: null
+  currentWinner: null,
+  raceResult: [],
 }
 
 const winnerSlice = createSlice({
@@ -15,12 +17,16 @@ const winnerSlice = createSlice({
   reducers: {
     setCurrentWinner: (state, action: PayloadAction<Winner>) => {
       state.currentWinner = action.payload;
+    },
+    addToRaceResult: (state, action: PayloadAction<WInnerWithoutWins>) => {
+      state.raceResult.push(action.payload);
     }
   }
 })
 
 export const {
-  setCurrentWinner
+  setCurrentWinner,
+  addToRaceResult
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;
