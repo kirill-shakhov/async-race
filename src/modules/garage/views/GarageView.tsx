@@ -3,10 +3,11 @@ import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {setCars, setTotalCount} from "@moduleGarage/store";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 import {UiButton, UiInput, UiPagination} from "@/shared/components";
 import {CarGarageRaceManager} from "@moduleGarage/components";
+import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
 
 const GarageView = () => {
   const {
@@ -26,10 +27,19 @@ const GarageView = () => {
   } = useGarageView();
 
   const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
+  const {startCarEngine} = useCarEngineControl();
 
   const dispatch = useAppDispatch();
   const stateCars = useAppSelector(state => state.garage.cars);
   const stateTotalCount = useAppSelector(state => state.garage.totalCount);
+  const carRefs = useRef<{ [index: number]: { id: number, ref: HTMLElement | null } }>({});
+
+  const setCarRef = (ref: HTMLElement | null, id: number, index: number) => {
+    if (ref) {
+      carRefs.current[index] = {id, ref};
+    }
+  };
+
 
   useEffect(() => {
     if (carsWithTotalCount && stateCars.length === 0) {
@@ -43,12 +53,31 @@ const GarageView = () => {
     }
   }, [carsWithTotalCount?.totalCount, dispatch]);
 
+
+  const race = async () => {
+    const promises = Object.keys(carRefs.current).map((index) => {
+      const {id, ref} = carRefs.current[+index];
+      if (ref) {
+        return startCarEngine(id, ref);
+      }
+      return Promise.resolve();
+    });
+
+    try {
+      await Promise.allSettled(promises);
+      console.log('All cars have started racing!');
+    } catch (error) {
+      console.error('Error while starting cars:', error);
+    }
+  };
+
+
   return (
     <div className="garage-view flex flex-col gap-y-14">
 
       <div className="garage-view__pannel flex flex-col md:flex-row justify-between flex-wrap md:gap-2">
         <div className="flex gap-2 flex-row">
-          <UiButton>
+          <UiButton onClick={() => race()}>
             Race <PlayIcon className="ml-1 size-3"/>
           </UiButton>
 
@@ -125,9 +154,9 @@ const GarageView = () => {
         {isLoading ? (
           <div>Loading...</div>
         ) : stateCars.length > 0 ? (
-          stateCars.map((car) => (
+          stateCars.map((car, index) => (
             <div key={car.id}>
-              <CarGarageRaceManager car={car}/>
+              <CarGarageRaceManager car={car} setCarRef={setCarRef} index={index}/>
             </div>
           ))
         ) : (
