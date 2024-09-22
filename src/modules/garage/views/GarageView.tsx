@@ -2,7 +2,7 @@ import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {setCars, setTotalCount} from "@moduleGarage/store";
+import {setCars, setStartRace, setTotalCount} from "@moduleGarage/store";
 import {useEffect, useRef} from "react";
 
 import {UiButton, UiInput, UiPagination} from "@/shared/components";
@@ -27,7 +27,7 @@ const GarageView = () => {
   } = useGarageView();
 
   const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
-  const {startCarEngine} = useCarEngineControl();
+  const {startCarEngine, stopCarEngine} = useCarEngineControl();
 
   const dispatch = useAppDispatch();
   const stateCars = useAppSelector(state => state.garage.cars);
@@ -55,10 +55,31 @@ const GarageView = () => {
 
 
   const race = async () => {
+    dispatch(setStartRace(true));
+
     const promises = Object.keys(carRefs.current).map((index) => {
       const {id, ref} = carRefs.current[+index];
       if (ref) {
         return startCarEngine(id, ref);
+      }
+      return Promise.resolve();
+    });
+
+    try {
+      await Promise.allSettled(promises);
+      console.log('All cars have started racing!');
+    } catch (error) {
+      console.error('Error while starting cars:', error);
+    }
+  };
+
+  const resetRace = async () => {
+    dispatch(setStartRace(false));
+
+    const promises = Object.keys(carRefs.current).map((index) => {
+      const {id, ref} = carRefs.current[+index];
+      if (ref) {
+        return stopCarEngine(id, ref);
       }
       return Promise.resolve();
     });
@@ -81,7 +102,7 @@ const GarageView = () => {
             Race <PlayIcon className="ml-1 size-3"/>
           </UiButton>
 
-          <UiButton theme="danger">
+          <UiButton onClick={() => resetRace()} theme="danger">
             Reset <XMarkIcon className="ml-1 size-3"/>
           </UiButton>
         </div>

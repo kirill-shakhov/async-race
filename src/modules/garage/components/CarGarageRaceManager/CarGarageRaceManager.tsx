@@ -18,6 +18,8 @@ interface CarGarageRaceManagerProps {
 
 const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps) => {
   let selectedCar = useAppSelector(state => state.garage.selectedCar);
+  const isRaceStarted = useAppSelector(state => state.garage.isRaceStarted);
+
   let selectedCarId = selectedCar ? selectedCar.id : null;
   const {startCarEngine, stopCarEngine, engineStatus} = useCarEngineControl();
 
@@ -39,7 +41,10 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
 
   return (
     <div className='border-y-2 pt-2 border-gray-300 flex flex-col gap-7'>
-      {JSON.stringify(engineStatus)}
+      {/*{JSON.stringify(isRaceStarted)}*/}
+      engineStatus:{JSON.stringify(engineStatus)}
+      <div></div>
+      isRaceStarted:{JSON.stringify(isRaceStarted)}
       <div className="flex gap-2">
         <div className='flex gap-2'>
           <div className="buttons-group flex flex-col gap-2">
@@ -63,7 +68,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
 
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
-              disabled={engineStatus}
+              disabled={engineStatus || isRaceStarted }
               onClick={() => startCarEngine(car.id, carRef.current!)}
               size='sm'
               block
@@ -72,6 +77,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
             </UiButton>
 
             <UiButton
+              disabled={engineStatus && isRaceStarted }
               onClick={() => stopCarEngine(car.id, carRef.current!)}
               size='sm'
               block

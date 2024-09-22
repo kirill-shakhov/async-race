@@ -6,13 +6,15 @@ interface GarageState {
   totalCount: number;
   currentPage: number;
   selectedCar: Car | null;
+  isRaceStarted: boolean;
 }
 
 const initialState: GarageState = {
   cars: [],
   totalCount: 0,
   currentPage: 1,
-  selectedCar: null
+  selectedCar: null,
+  isRaceStarted: false
 }
 
 const garageSlice = createSlice({
@@ -34,6 +36,9 @@ const garageSlice = createSlice({
     setSelectedCar: (state, action: PayloadAction<Car>) => {
       state.selectedCar = action.payload;
     },
+    setStartRace: (state, action: PayloadAction<boolean>) => {
+      state.isRaceStarted = action.payload;
+    },
   }
 })
 
@@ -41,8 +46,11 @@ export const {
   setCars,
   setTotalCount,
   clearCars,
+
   setCurrentPage,
-  setSelectedCar
+  setSelectedCar,
+
+  setStartRace
 } = garageSlice.actions;
 
 export default garageSlice.reducer;
