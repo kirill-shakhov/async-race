@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {setCars, setTotalCount, setCurrentPage, clearCars} from "@moduleGarage/store";
+import {setCars, setTotalCount, setCurrentPage, clearCars, setStartRace} from "@moduleGarage/store";
 import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
 
 const useUiPagination = () => {
@@ -17,6 +17,7 @@ const useUiPagination = () => {
   const handlePageClick = async (page: number): Promise<void> => {
     if (page === currentPage) return;
 
+    dispatch(setStartRace(false));
     dispatch(setCurrentPage(page));
     await fetchAndUpdateCars(page);
   };
@@ -24,6 +25,8 @@ const useUiPagination = () => {
   const handlePreviousPage = async (): Promise<void> => {
     if (currentPage > 1) {
       const newPage = currentPage - 1;
+
+      dispatch(setStartRace(false));
       dispatch(setCurrentPage(newPage));
       await fetchAndUpdateCars(newPage);
     }
@@ -32,6 +35,8 @@ const useUiPagination = () => {
   const handleNextPage = async (): Promise<void> => {
     if (currentPage < pagesCount) {
       const newPage = currentPage + 1;
+      
+      dispatch(setStartRace(false));
       dispatch(setCurrentPage(newPage));
       await fetchAndUpdateCars(newPage);
     }
