@@ -46,4 +46,6 @@ export const {
   useCreateWinnerMutation,
   useDeleteWinnerMutation,
   useUpdateWinnerMutation,
+
+  useLazyGetWinnerQuery
 } = winnerApi;
