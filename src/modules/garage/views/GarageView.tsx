@@ -57,6 +57,13 @@ const GarageView = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(setStartRace(false));
+      dispatch(clearRaceResult());
+    };
+  }, [dispatch]);
+
 
   useEffect(() => {
     if (carsWithTotalCount && stateCars.length === 0) {
