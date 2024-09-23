@@ -35,7 +35,9 @@ const WinnersView = () => {
 
   return (
     <div className='flex flex-col gap-y-14 min-h-screen'>
-      {winners && winnersList.length > 0 && (<WinnersTable/>)}
+      {winners && winnersList.length > 0 ? (<WinnersTable/>) : (<div className='flex justify-center font-extrabold'>
+        no winners available
+      </div>)}
     </div>
   )
 }
