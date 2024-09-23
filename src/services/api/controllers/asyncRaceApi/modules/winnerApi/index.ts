@@ -6,11 +6,20 @@ import {
   Id,
   WinnersResponse,
 } from "@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts";
+import {
+  DEFAULT_WINNERS_PER_PAGE,
+  INITIAL_WINNERS_PAGE
+} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts";
 
 export const winnerApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
     getWinners: builder.query<WinnersResponse, GetWinnersQueryParams>({
-      query: ({page = 1, limit = 10, sort = 'id', order = 'ASC'}: GetWinnersQueryParams) =>
+      query: ({
+                page = INITIAL_WINNERS_PAGE,
+                limit = DEFAULT_WINNERS_PER_PAGE,
+                sort = 'id',
+                order = 'ASC'
+              }: GetWinnersQueryParams) =>
         `/winners?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`,
     }),
     getWinner: builder.query<Winner, Id>({
@@ -48,4 +57,5 @@ export const {
   useUpdateWinnerMutation,
 
   useLazyGetWinnerQuery,
+  useLazyGetWinnersQuery,
 } = winnerApi;
