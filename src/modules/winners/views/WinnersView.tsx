@@ -11,6 +11,9 @@ import {
 const WinnersView = () => {
   const [triggerGetWinners, {data: winners}] = useLazyGetWinnersQuery();
   const winnersList = useAppSelector(state => state.winners.winners);
+  const sortingDirection = useAppSelector(state => state.winners.sortingDirection);
+  const sortingOption = useAppSelector(state => state.winners.sortingOption);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,14 +27,14 @@ const WinnersView = () => {
     triggerGetWinners({
       page: INITIAL_WINNERS_PAGE,
       limit: DEFAULT_WINNERS_PER_PAGE,
-      sort: 'id',
-      order: 'ASC'
+      sort: sortingOption,
+      order: sortingDirection
     }).unwrap().then((response) => {
-      if (response && winnersList.length === 0) {
+      if (response) {
         dispatch(setWinners(response));
       }
     });
-  }, [winnersList.length, dispatch]);
+  }, [sortingDirection, sortingOption, dispatch]);
 
   return (
     <div className='flex flex-col gap-y-14 min-h-screen'>
