@@ -29,11 +29,11 @@ export const winnerApi = asyncRaceApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
-    updateWinner: builder.mutation<Winner, { id: Id, updatedWinner: WInnerWithoutId }>({
-      query: ({id, updatedWinner}) => ({
+    updateWinner: builder.mutation<Winner, Winner>({
+      query: ({id, time, wins}) => ({
         url: `/winners/${id}`,
         method: 'PUT',
-        body: updatedWinner,
+        body: {id, time, wins},
       }),
     }),
   }),
@@ -47,5 +47,5 @@ export const {
   useDeleteWinnerMutation,
   useUpdateWinnerMutation,
 
-  useLazyGetWinnerQuery
+  useLazyGetWinnerQuery,
 } = winnerApi;
