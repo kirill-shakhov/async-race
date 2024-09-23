@@ -109,7 +109,13 @@ const GarageView = () => {
 
   useEffect(() => {
     if (isRaceFinished && raceResult.length > 0) {
-      const winner = raceResult.reduce((prev, current) => (prev.time < current.time ? prev : current));
+      // We choose the winner not based on the fastest time, but on the order in which cars are added to the raceResult array.
+      // This is because the cars do not start at the same time: each car starts its movement once the server responds
+      // to its request, and the response time can vary. Therefore, the time recorded in the results may not accurately
+      // reflect the true order of finishing. The results are added to raceResult as the animations complete, so the
+      // first car added is considered the actual winner, as it finished its animation first.
+
+      const winner = raceResult[0]; // We treat the first car added as the actual winner
       const car = stateCars.find(car => car.id === winner.id);
 
       setRaceWinner({
@@ -120,7 +126,6 @@ const GarageView = () => {
       triggerGetWinner(winner.id)
         .unwrap()
         .then((data) => {
-          // Если победитель найден, обновляем его
           console.log("Winner data:", data);
           updateWinner({
             id: data.id,
