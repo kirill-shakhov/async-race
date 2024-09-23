@@ -9,6 +9,8 @@ import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {DEFAULT_GARAGE_CARS_PER_PAGE} from "@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts";
 import {Car} from "@moduleGarage/static/types";
 import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
+import {removeWinner} from "@moduleWinners/store";
+import {useDeleteWinnerMutation} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
 
 const useCarGarageRaceManager = () => {
   const dispatch = useAppDispatch();
@@ -16,11 +18,13 @@ const useCarGarageRaceManager = () => {
 
   let currentPage = useAppSelector(state => state.garage.currentPage);
   const {refetch} = useGetCarsQuery({page: currentPage, limit: DEFAULT_GARAGE_CARS_PER_PAGE});
+  const [deleteWinner] = useDeleteWinnerMutation();
 
 
   const sendCarDeleteRequest = async (id: number): Promise<void> => {
     try {
       await deleteCar(id);
+      await deleteWinner(id);
 
       const refetchResponse = await refetch();
 
@@ -29,6 +33,8 @@ const useCarGarageRaceManager = () => {
         dispatch(setCars(cars));
         dispatch(setTotalCount(totalCount));
       }
+
+      dispatch(removeWinner(id));
     } catch (e) {
       console.log(e);
     }
