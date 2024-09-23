@@ -129,7 +129,7 @@ const GarageView = () => {
           console.log("Winner data:", data);
           updateWinner({
             id: data.id,
-            time: winner.time,
+            time: Math.min(data.time, winner.time),
             wins: data.wins + 1,
           }).unwrap()
             .then((updatedData) => {
@@ -161,10 +161,6 @@ const GarageView = () => {
       console.log("Winner:", winner);
     }
   }, [isRaceFinished, raceResult, triggerGetWinner, createWinner, updateWinner]);
-
-  // написать функцию получения winner
-  // аписать функцию которая обновляла бы победителя
-  // вынести функцию reset в отдельную сущность
 
   const resetRace = async () => {
     dispatch(setStartRace(false));
