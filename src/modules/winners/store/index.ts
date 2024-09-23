@@ -25,6 +25,9 @@ const winnerSlice = createSlice({
     clearWinners: (state) => {
       state.winners = [];
     },
+    removeWinner: (state, action: PayloadAction<number>) => {
+      state.winners = state.winners.filter((winner) => winner.id !== action.payload);
+    }
   }
 })
 
@@ -32,7 +35,8 @@ export const {
   setCurrentWinner,
 
   setWinners,
-  clearWinners
+  clearWinners,
+  removeWinner
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;
