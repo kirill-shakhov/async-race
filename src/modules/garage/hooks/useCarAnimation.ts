@@ -1,6 +1,6 @@
 import {useRef, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {addToRaceResult, setCurrentWinner} from "@moduleWinners/store";
+import {addToRaceResult} from "@moduleGarage/store";
 
 type UseCarAnimationReturn = {
   startAnimation: (carRef: HTMLElement, distance: number, duration: number, id: number) => void;
@@ -9,7 +9,6 @@ type UseCarAnimationReturn = {
 
 const useCarAnimation = (): UseCarAnimationReturn => {
   const isRaceStarted = useAppSelector(state => state.garage.isRaceStarted);
-  const winner = useAppSelector(state => state.winners.currentWinner);
   const dispatch = useAppDispatch();
 
   const carAnimations = useRef<{

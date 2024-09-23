@@ -3,12 +3,10 @@ import {Winner, WInnerWithoutWins} from "@moduleWinners/static/types";
 
 interface WinnersState {
   currentWinner: Winner | null;
-  raceResult: WInnerWithoutWins[] | [];
 }
 
 const initialState: WinnersState = {
   currentWinner: null,
-  raceResult: [],
 }
 
 const winnerSlice = createSlice({
@@ -18,15 +16,11 @@ const winnerSlice = createSlice({
     setCurrentWinner: (state, action: PayloadAction<Winner>) => {
       state.currentWinner = action.payload;
     },
-    addToRaceResult: (state, action: PayloadAction<WInnerWithoutWins>) => {
-      state.raceResult.push(action.payload);
-    }
   }
 })
 
 export const {
   setCurrentWinner,
-  addToRaceResult
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;
