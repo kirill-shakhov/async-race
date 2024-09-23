@@ -2,12 +2,20 @@ import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {setCars, setStartRace, setTotalCount} from "@moduleGarage/store";
-import {useEffect, useRef} from "react";
+import {clearRaceResult, setCars, setStartRace, setTotalCount} from "@moduleGarage/store";
+import {useEffect, useRef, useState} from "react";
 
-import {UiButton, UiInput, UiPagination} from "@/shared/components";
+import {UiButton, UiInput, UiModal, UiPagination} from "@/shared/components";
 import {CarGarageRaceManager} from "@moduleGarage/components";
 import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
+import {
+  useCreateWinnerMutation,
+  useGetWinnerQuery,
+  useLazyGetWinnerQuery,
+  useUpdateWinnerMutation
+} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
+import {WInnerWithoutWins} from "@moduleWinners/static/types";
+import {CarWithoutId} from "@moduleGarage/static/types";
 
 const GarageView = () => {
   const {
@@ -27,13 +35,21 @@ const GarageView = () => {
   } = useGarageView();
 
   const {data: carsWithTotalCount, isLoading} = useGetCarsQuery({page: 1, limit: 7},);
+  const [triggerGetWinner, {data: winnerData, isLoading: winnerLoading, error: winnerError}] = useLazyGetWinnerQuery();
+  const [updateWinner] = useUpdateWinnerMutation();
+  const [createWinner] = useCreateWinnerMutation();
   const {startCarEngine, stopCarEngine} = useCarEngineControl();
 
   const dispatch = useAppDispatch();
   const stateCars = useAppSelector(state => state.garage.cars);
   const stateTotalCount = useAppSelector(state => state.garage.totalCount);
   const carRefs = useRef<{ [index: number]: { id: number, ref: HTMLElement | null } }>({});
+
   const isRaceStarted = useAppSelector(state => state.garage.isRaceStarted);
+  const raceResult = useAppSelector(state => state.garage.raceResult);
+
+  const [isRaceFinished, setIsRaceFinished] = useState(false);
+  const [raceWinner, setRaceWinner] = useState<{ name: string; time: number } | null>(null);
 
   const setCarRef = (ref: HTMLElement | null, id: number, index: number) => {
     if (ref) {
@@ -55,9 +71,7 @@ const GarageView = () => {
   }, [carsWithTotalCount?.totalCount, dispatch]);
 
 
-  const race = async () => {
-    dispatch(setStartRace(true));
-
+  const startRace = async () => {
     const promises = Object.keys(carRefs.current).map((index) => {
       const {id, ref} = carRefs.current[+index];
       if (ref) {
@@ -69,13 +83,91 @@ const GarageView = () => {
     try {
       await Promise.allSettled(promises);
       console.log('All cars have started racing!');
+      setIsRaceFinished(true);
+
     } catch (error) {
       console.error('Error while starting cars:', error);
     }
   };
 
+  const race = () => {
+    dispatch(setStartRace(true));
+  }
+
+  useEffect(() => {
+    if (isRaceStarted) {
+      startRace()
+        .then(() => {
+          console.log("Race completed!");
+        })
+        .catch((error) => {
+          console.error("Error during the race:", error);
+        });
+    }
+  }, [isRaceStarted]);
+
+
+  useEffect(() => {
+    if (isRaceFinished && raceResult.length > 0) {
+      const winner = raceResult.reduce((prev, current) => (prev.time < current.time ? prev : current));
+      const car = stateCars.find(car => car.id === winner.id);
+
+      setRaceWinner({
+        name: car.name,
+        time: winner.time,
+      });
+
+      triggerGetWinner(winner.id)
+        .unwrap()
+        .then((data) => {
+          // Если победитель найден, обновляем его
+          console.log("Winner data:", data);
+          updateWinner({
+            id: data.id,
+            time: winner.time,
+            wins: data.wins + 1,
+          }).unwrap()
+            .then((updatedData) => {
+              console.log("Winner updated successfully:", updatedData);
+            })
+            .catch((updateError) => {
+              console.error("Error updating winner:", updateError);
+            });
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            console.log('Winner not found in the database, creating new winner...');
+            createWinner({
+              id: winner.id,
+              time: winner.time,
+              wins: 1,
+            }).unwrap()
+              .then((createdData) => {
+                console.log("Winner created successfully:", createdData);
+              })
+              .catch((createError) => {
+                console.error("Error creating winner:", createError);
+              });
+          } else {
+            console.error("Error fetching winner data:", error);
+          }
+        });
+
+      console.log("Winner:", winner);
+    }
+  }, [isRaceFinished, raceResult, triggerGetWinner, createWinner, updateWinner]);
+
+  // написать функцию получения winner
+  // аписать функцию которая обновляла бы победителя
+  // вынести функцию reset в отдельную сущность
+
   const resetRace = async () => {
     dispatch(setStartRace(false));
+    dispatch(clearRaceResult());
+
+    setIsRaceFinished(false);
+    setRaceWinner(null);
+
 
     const promises = Object.keys(carRefs.current).map((index) => {
       const {id, ref} = carRefs.current[+index];
@@ -96,7 +188,6 @@ const GarageView = () => {
 
   return (
     <div className="garage-view flex flex-col gap-y-14">
-
       <div className="garage-view__pannel flex flex-col md:flex-row justify-between flex-wrap md:gap-2">
         <div className="flex gap-2 flex-row">
           <UiButton
@@ -197,10 +288,18 @@ const GarageView = () => {
         ) : (
           <div>No cars available</div>
         )}
-
         <div className="flex justify-end">
           <UiPagination/>
         </div>
+
+        {raceWinner && (
+          <UiModal isOpen={isRaceFinished} setIsOpen={setIsRaceFinished}>
+            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+              <p className='text-4xl font-extrabold dark:text-white'>{raceWinner.name} went first
+                ({raceWinner.time}s)!</p>
+            </div>
+          </UiModal>
+        )}
       </div>
     </div>
   )
