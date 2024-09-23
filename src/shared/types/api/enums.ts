@@ -3,3 +3,9 @@ export enum SortDirection {
   DESC = 'DESC',
   DEFAULT = '',
 }
+
+export enum SortOptions {
+  ID = 'id',
+  WINS = 'wins',
+  TIME = 'time',
+}
