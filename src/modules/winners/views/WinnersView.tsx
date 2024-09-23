@@ -1,9 +1,9 @@
-import AppHeader from "@/shared/components/AppHeader/AppHeader.tsx";
+import {WinnersTable} from "@moduleWinners/components";
 
 const WinnersView = () => {
   return (
-    <div>
-      WinnersView
+    <div className='flex flex-col gap-y-14 min-h-screen'>
+      <WinnersTable/>
     </div>
   )
 }
