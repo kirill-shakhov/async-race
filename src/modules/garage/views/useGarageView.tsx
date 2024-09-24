@@ -5,25 +5,39 @@ import {
   useCreateCarMutation,
   useUpdateCarMutation
 } from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {useAppSelector} from "@/store/hooks.ts";
+import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import {createRandomCar} from "@/utils";
 import {Id} from "@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts";
 import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
+import debounceFn from "debounce-fn";
 
 interface ErrorState {
   name: string;
   color: string;
 }
 
+const validationSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(15, 'Name must be less than or equal to 15 characters')
+    .required('Name is required'),
+  color: Yup.string()
+    .matches(/^#[0-9A-F]{6}$/i, 'Color must be in HEX format')
+    .required('Color is required'),
+});
+
 
 const useGarageView = () => {
 
   let selectedCar = useAppSelector(state => state.garage.selectedCar);
   let selectedCarId = selectedCar ? selectedCar.id : null;
+  const dispatch = useAppDispatch();
 
   const [createCar] = useCreateCarMutation();
   const [updateCar] = useUpdateCarMutation();
+
+
 
   const [createCarValues, setCreateCarValues] = useState({name: '', color: '#ffffff'});
   const [createCarErrors, setCreateCarErrors] = useState<ErrorState>({name: '', color: ''});
@@ -57,16 +71,12 @@ const useGarageView = () => {
     }
   }
 
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(2, 'Name must be at least 2 characters')
-      .max(15, 'Name must be less than or equal to 15 characters')
-      .required('Name is required'),
-    color: Yup.string()
-      .matches(/^#[0-9A-F]{6}$/i, 'Color must be in HEX format')
-      .required('Color is required'),
-  });
+  const debouncedChange = debounceFn((value: string) => {
+    setCreateCarValues(prevValues => ({
+      ...prevValues,
+      color: value,
+    }));
+  }, { wait: 300 });
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -75,21 +85,24 @@ const useGarageView = () => {
     setErrors: Dispatch<SetStateAction<ErrorState>>,
     errors: ErrorState
   ) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
-    setValues({
-      ...values,
-      [name]: value,
-    });
-
-    if (errors[name as keyof ErrorState]) {
-      setErrors({
-        ...errors,
-        [name]: '',
+    if (name === 'color') {
+      debouncedChange(value);
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
       });
+
+      if (errors[name as keyof ErrorState]) {
+        setErrors({
+          ...errors,
+          [name]: '',
+        });
+      }
     }
   };
-
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e, setCreateCarValues, createCarValues, setCreateCarErrors, createCarErrors);
