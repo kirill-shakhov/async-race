@@ -7,13 +7,17 @@ interface WinnersState {
   currentWinner: Winner | null;
   sortingDirection: SortDirection;
   sortingOption: SortOptions;
+  currentPage: number;
+  totalCount: number
 }
 
 const initialState: WinnersState = {
   winners: [],
   currentWinner: null,
   sortingDirection: SortDirection.ASC,
-  sortingOption: SortOptions.ID
+  sortingOption: SortOptions.ID,
+  currentPage: 1,
+  totalCount: 0,
 }
 
 const winnerSlice = createSlice({
@@ -38,6 +42,12 @@ const winnerSlice = createSlice({
     },
     setSortingOption: (state, action: PayloadAction<SortOptions>) => {
       state.sortingOption = action.payload;
+    },
+    setTotalCount: (state, action: PayloadAction<number>) => {
+      state.totalCount = action.payload;
+    },
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
     }
   }
 })
@@ -50,7 +60,10 @@ export const {
   removeWinner,
 
   setSortingOption,
-  setSortingOrder
+  setSortingOrder,
+
+  setTotalCount,
+  setCurrentPage
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;
