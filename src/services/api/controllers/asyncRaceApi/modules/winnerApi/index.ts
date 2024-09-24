@@ -3,17 +3,18 @@ import {asyncRaceApi} from '@/services/api/controllers/asyncRaceApi';
 import {Winner, WInnerWithoutId} from "@moduleWinners/static/types";
 import {
   GetWinnersQueryParams,
-  Id,
+  Id, WinnersQueryResponse,
   WinnersResponse,
 } from "@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts";
 import {
   DEFAULT_WINNERS_PER_PAGE,
   INITIAL_WINNERS_PAGE
 } from "@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts";
+import {Car} from "@moduleGarage/static/types";
 
 export const winnerApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
-    getWinners: builder.query<WinnersResponse, GetWinnersQueryParams>({
+    getWinners: builder.query<WinnersQueryResponse, GetWinnersQueryParams>({
       query: ({
                 page = INITIAL_WINNERS_PAGE,
                 limit = DEFAULT_WINNERS_PER_PAGE,
@@ -21,6 +22,9 @@ export const winnerApi = asyncRaceApi.injectEndpoints({
                 order = 'ASC'
               }: GetWinnersQueryParams) =>
         `/winners?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`,
+      transformResponse(winners: Winner[], meta) {
+        return {winners, totalCount: Number(meta?.response?.headers.get('X-Total-Count'))}
+      }
     }),
     getWinner: builder.query<Winner, Id>({
       query: (id: Id) => `/winners/${id}`,
