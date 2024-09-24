@@ -4,7 +4,7 @@ import {UiButton, UiInput} from "@/shared/components";
 
 const FormControl: FC<FormControlProps> = ({onSubmit, onChange, values, errors, disabled, submitButtonText}) => {
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-2 md:flex-row">
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 md:flex-row align-start">
       <UiInput
         name="name"
         type="text"
@@ -26,6 +26,7 @@ const FormControl: FC<FormControlProps> = ({onSubmit, onChange, values, errors, 
       </div>
 
       <UiButton
+        className="max-h-[40px]"
         type="submit"
         disabled={disabled}
       >{submitButtonText}</UiButton>

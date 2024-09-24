@@ -23,7 +23,7 @@ const UiInput: FC<UiInputProps> =
       <div>
         {label && <label className={"block text-sm font-medium leading-6 text-gray-900"} htmlFor={name}>{label}</label>}
 
-        <div className={'ui-input-wrap mt-2'}>
+        <div className={'ui-input-wrap'}>
           <input
             type={type}
             name={name}

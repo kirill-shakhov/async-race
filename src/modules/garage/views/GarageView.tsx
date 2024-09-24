@@ -209,6 +209,7 @@ const GarageView = () => {
           <UiButton
             onClick={() => race()}
             disabled={isRaceStarted}
+            className="max-h-[40px]"
           >
             Race <PlayIcon className="ml-1 size-3"/>
           </UiButton>
@@ -216,6 +217,7 @@ const GarageView = () => {
           <UiButton
             onClick={() => resetRace()}
             disabled={!isRaceStarted}
+            className="max-h-[40px]"
             theme="danger"
           >
             Reset <XMarkIcon className="ml-1 size-3"/>
@@ -248,7 +250,9 @@ const GarageView = () => {
             loading={isLoadingCreatedCars}
             block
             disabled={isRaceStarted}
-            onClick={handleGenerateCars}>
+            onClick={handleGenerateCars}
+            className="max-h-[40px]"
+          >
             Generate Cars
           </UiButton>
 
