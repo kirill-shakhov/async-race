@@ -213,7 +213,11 @@ const GarageView = () => {
             Race <PlayIcon className="ml-1 size-3"/>
           </UiButton>
 
-          <UiButton onClick={() => resetRace()} theme="danger">
+          <UiButton
+            onClick={() => resetRace()}
+            disabled={!isRaceStarted}
+            theme="danger"
+          >
             Reset <XMarkIcon className="ml-1 size-3"/>
           </UiButton>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {UiButton} from "@/shared/components/UI/UiButton";
 import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import useCarGarageRaceManager from "@moduleGarage/components/CarGarageRaceManager/useCarGarageRaceManager.tsx";
@@ -38,7 +38,6 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
   }, [carRef, car.id, index, setCarRef]);
 
 
-
   return (
     <div className='border-y-2 pt-2 border-gray-300 flex flex-col gap-7'>
       <div className="flex gap-2">
@@ -48,7 +47,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               className={selectedCarId === car.id ? 'active' : ''}
               size='sm'
               block
-              disabled={engineStatus || isRaceStarted }
+              disabled={engineStatus || isRaceStarted}
               onClick={() => selectCar(car)}
             >
               select
@@ -58,7 +57,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               onClick={() => sendCarDeleteRequest(+car.id)}
               size='sm'
               block
-              disabled={engineStatus || isRaceStarted }
+              disabled={engineStatus || isRaceStarted}
               theme="danger">
               remove
             </UiButton>
@@ -69,7 +68,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               onClick={() => startCarEngine(car.id, carRef.current!)}
               size='sm'
               block
-              disabled={engineStatus || isRaceStarted }
+              disabled={engineStatus || isRaceStarted}
             >
               start <PlayIcon className="ml-1 size-3"/>
             </UiButton>
@@ -78,7 +77,7 @@ const CarGarageRaceManager = ({car, setCarRef, index}: CarGarageRaceManagerProps
               onClick={() => stopCarEngine(car.id, carRef.current!)}
               size='sm'
               block
-              disabled={engineStatus && isRaceStarted }
+              disabled={!isRaceStarted && !engineStatus}
               theme="danger">
               stop
               <XMarkIcon className="ml-1 size-3"/>
