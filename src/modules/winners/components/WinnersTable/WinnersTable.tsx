@@ -59,7 +59,7 @@ const WinnersTable = () => {
   }, [winnersList, triggerGetCar]);
 
   return (
-    <div className='flex flex-col gap-y-7 min-h-screen'>
+    <div className='flex flex-col gap-y-7'>
       <div className='flex justify-end gap-4'>
         <UiSelect
           list={sortOrders}
