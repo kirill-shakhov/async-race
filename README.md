@@ -27,7 +27,7 @@
 - [x] **Winners View Content (10 points):** The "Winners" view should display:
   - [x] Name of view ("Winners")
   - [x] Winners table
-  - [ ] Pagination
+  - [x] Pagination
 - [ ] **Persistent State (30 points):** Ensure the view state remains consistent when navigating between views. This includes preserving page numbers and input states. For example, page number shouldn't be reset, input controls should contain that they contained before switching, etc.
 
 ## Garage View (90 points)
