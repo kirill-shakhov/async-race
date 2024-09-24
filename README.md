@@ -39,7 +39,7 @@
 - [x] **Pagination (10 points):** Implement pagination for the "Garage" view, displaying 7 cars per page.
 - [x] **EXTRA POINTS (20 points):**
   - [x] **Empty Garage** Handle empty garage with user friendly message "No Cars" or something like this. Do it at your discretion.
-  - [ ] **Empty Garage Page** If you remove the last one car on the page, you should be moved on the previous page, to hide the empty one.
+  - [x] **Empty Garage Page** If you remove the last one car on the page, you should be moved on the previous page, to hide the empty one.
 
 ## 🏆 Winners View (50 points)
 
