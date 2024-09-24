@@ -2,7 +2,7 @@ import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {clearRaceResult, setCars, setStartRace, setTotalCount} from "@moduleGarage/store";
+import {clearRaceResult, setCars, setCurrentPage, setStartRace, setTotalCount} from "@moduleGarage/store";
 import {useEffect, useRef, useState} from "react";
 
 import {UiButton, UiInput, UiModal, UiPagination} from "@/shared/components";
@@ -16,6 +16,7 @@ import {
 } from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
 import {WInnerWithoutWins} from "@moduleWinners/static/types";
 import {CarWithoutId} from "@moduleGarage/static/types";
+import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
 
 const GarageView = () => {
   const {
@@ -50,6 +51,10 @@ const GarageView = () => {
 
   const [isRaceFinished, setIsRaceFinished] = useState(false);
   const [raceWinner, setRaceWinner] = useState<{ name: string; time: number } | null>(null);
+
+  const fetchAndUpdateCars = useFetchAndUpdateCars();
+
+  let currentPage = useAppSelector(state => state.garage.currentPage);
 
   const setCarRef = (ref: HTMLElement | null, id: number, index: number) => {
     if (ref) {
@@ -193,6 +198,36 @@ const GarageView = () => {
     }
   };
 
+  let pagesCount = Math.ceil(stateTotalCount / 7);
+
+  const handlePageClick = async (page: number): Promise<void> => {
+    if (page === currentPage) return;
+
+    dispatch(setStartRace(false));
+    dispatch(setCurrentPage(page));
+    await fetchAndUpdateCars(page);
+  };
+
+  const handlePreviousPage = async (): Promise<void> => {
+    if (currentPage > 1) {
+      const newPage = currentPage - 1;
+
+      dispatch(setStartRace(false));
+      dispatch(setCurrentPage(newPage));
+      await fetchAndUpdateCars(newPage);
+    }
+  };
+
+  const handleNextPage = async (): Promise<void> => {
+    if (currentPage < pagesCount) {
+      const newPage = currentPage + 1;
+
+      dispatch(setStartRace(false));
+      dispatch(setCurrentPage(newPage));
+      await fetchAndUpdateCars(newPage);
+    }
+  };
+
 
   return (
     <div className="garage-view flex flex-col gap-y-14">
@@ -297,7 +332,13 @@ const GarageView = () => {
           <div>No cars available</div>
         )}
         <div className="flex justify-end">
-          <UiPagination/>
+          <UiPagination
+            pagesCount={pagesCount}
+            currentPage={currentPage}
+            handlePageClick={handlePageClick}
+            handlePreviousPage={handlePreviousPage}
+            handleNextPage={handleNextPage}
+          />
         </div>
 
         {raceWinner && (
