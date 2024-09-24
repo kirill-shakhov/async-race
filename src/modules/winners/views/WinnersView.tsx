@@ -1,18 +1,14 @@
 import {WinnersTable} from "@moduleWinners/components";
-import {useLazyGetWinnersQuery} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {clearWinners, setWinners} from "@moduleWinners/store";
-import {
-  DEFAULT_WINNERS_PER_PAGE,
-  INITIAL_WINNERS_PAGE
-} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts";
+import {clearWinners} from "@moduleWinners/store";
+import {UiPagination} from "@/shared/components";
+import useWinnersViewPagination from "@moduleWinners/hooks/useWinnersViewPagination.ts";
+import useFetchAndUpdateWinners from "@moduleWinners/hooks/useFetchAndUpdateWinners.ts";
 
 const WinnersView = () => {
-  const [triggerGetWinners, {data: winners}] = useLazyGetWinnersQuery();
   const winnersList = useAppSelector(state => state.winners.winners);
-  const sortingDirection = useAppSelector(state => state.winners.sortingDirection);
-  const sortingOption = useAppSelector(state => state.winners.sortingOption);
+  const {fetchAndUpdateWinners, isLoading} = useFetchAndUpdateWinners();
 
   const dispatch = useAppDispatch();
 
@@ -24,25 +20,46 @@ const WinnersView = () => {
 
 
   useEffect(() => {
-    triggerGetWinners({
-      page: INITIAL_WINNERS_PAGE,
-      limit: DEFAULT_WINNERS_PER_PAGE,
-      sort: sortingOption,
-      order: sortingDirection
-    }).unwrap().then((response) => {
-      if (response) {
-        dispatch(setWinners(response));
-      }
-    });
-  }, [sortingDirection, sortingOption, dispatch]);
+    fetchAndUpdateWinners();
+  }, [fetchAndUpdateWinners]);
+
+  const {
+    currentPage,
+    pagesCount,
+
+    handlePageClick,
+    handleNextPage,
+    handlePreviousPage
+  } = useWinnersViewPagination();
+
 
   return (
-    <div className='flex flex-col gap-y-14 min-h-screen'>
-      {winners && winnersList.length > 0 ? (<WinnersTable/>) : (<div className='flex justify-center font-extrabold'>
-        no winners available
-      </div>)}
+    <div className='flex flex-col gap-y-14'>
+      {isLoading ? (
+        <div className='flex justify-center'>
+          loading
+        </div>
+      ) : (
+        winnersList && winnersList.length > 0 ? (
+          <WinnersTable/>
+        ) : (
+          <div className='flex justify-center font-extrabold'>
+            No winners available
+          </div>
+        )
+      )}
+
+      <div className="flex justify-end">
+        <UiPagination
+          pagesCount={pagesCount}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+        />
+      </div>
     </div>
-  )
+  );
 }
 
 export default WinnersView;
