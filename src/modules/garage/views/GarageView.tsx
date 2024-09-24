@@ -2,7 +2,7 @@ import {PlayIcon, XMarkIcon} from "@heroicons/react/16/solid";
 import useGarageView from "@moduleGarage/views/useGarageView.tsx";
 import {useGetCarsQuery} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
 import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {clearRaceResult, setCars, setCurrentPage, setStartRace, setTotalCount} from "@moduleGarage/store";
+import {clearRaceResult, setCars, setStartRace, setTotalCount} from "@moduleGarage/store";
 import {useEffect, useRef, useState} from "react";
 
 import {UiButton, UiModal, UiPagination} from "@/shared/components";
@@ -10,13 +10,10 @@ import {CarGarageRaceManager, FormControl} from "@moduleGarage/components";
 import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
 import {
   useCreateWinnerMutation,
-  useGetWinnerQuery,
   useLazyGetWinnerQuery,
   useUpdateWinnerMutation
 } from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
-import {WInnerWithoutWins} from "@moduleWinners/static/types";
-import {CarWithoutId} from "@moduleGarage/static/types";
-import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
+import useGarageViewPagination from "@moduleGarage/hooks/useGarageViewPagination.ts";
 
 const GarageView = () => {
   const {
@@ -43,7 +40,6 @@ const GarageView = () => {
 
   const dispatch = useAppDispatch();
   const stateCars = useAppSelector(state => state.garage.cars);
-  const stateTotalCount = useAppSelector(state => state.garage.totalCount);
   const carRefs = useRef<{ [index: number]: { id: number, ref: HTMLElement | null } }>({});
 
   const isRaceStarted = useAppSelector(state => state.garage.isRaceStarted);
@@ -52,9 +48,16 @@ const GarageView = () => {
   const [isRaceFinished, setIsRaceFinished] = useState(false);
   const [raceWinner, setRaceWinner] = useState<{ name: string; time: number } | null>(null);
 
-  const fetchAndUpdateCars = useFetchAndUpdateCars();
+  const {
+    stateTotalCount,
+    currentPage,
+    pagesCount,
 
-  let currentPage = useAppSelector(state => state.garage.currentPage);
+    handlePageClick,
+    handleNextPage,
+    handlePreviousPage
+  } = useGarageViewPagination();
+
 
   const setCarRef = (ref: HTMLElement | null, id: number, index: number) => {
     if (ref) {
@@ -195,36 +198,6 @@ const GarageView = () => {
       console.log('All cars have started racing!');
     } catch (error) {
       console.error('Error while starting cars:', error);
-    }
-  };
-
-  let pagesCount = Math.ceil(stateTotalCount / 7);
-
-  const handlePageClick = async (page: number): Promise<void> => {
-    if (page === currentPage) return;
-
-    dispatch(setStartRace(false));
-    dispatch(setCurrentPage(page));
-    await fetchAndUpdateCars(page);
-  };
-
-  const handlePreviousPage = async (): Promise<void> => {
-    if (currentPage > 1) {
-      const newPage = currentPage - 1;
-
-      dispatch(setStartRace(false));
-      dispatch(setCurrentPage(newPage));
-      await fetchAndUpdateCars(newPage);
-    }
-  };
-
-  const handleNextPage = async (): Promise<void> => {
-    if (currentPage < pagesCount) {
-      const newPage = currentPage + 1;
-
-      dispatch(setStartRace(false));
-      dispatch(setCurrentPage(newPage));
-      await fetchAndUpdateCars(newPage);
     }
   };
 
