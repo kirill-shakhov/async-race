@@ -6,6 +6,7 @@ import {
 } from "@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts";
 import {useLazyGetWinnersQuery} from "@/services/api/controllers/asyncRaceApi/modules/winnerApi";
 import {setWinners} from "@moduleWinners/store";
+import {setCurrentPage} from "@moduleWinners/store";
 
 const useFetchAndUpdateWinners = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,12 @@ const useFetchAndUpdateWinners = () => {
         sort: sortingOption,
         order: sortingDirection
       }).unwrap();
+
+      if (result.winners.length === 0 && currentPage > 1) {
+        dispatch(setCurrentPage(currentPage - 1));
+        await fetchAndUpdateWinners(currentPage - 1);
+        return;
+      }
 
       if (result) {
         const {winners, totalCount} = result;
