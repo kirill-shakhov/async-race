@@ -32,5 +32,9 @@ export interface WinnersResponse {
   winners: Winner[];
 }
 
+export interface WinnersQueryResponse {
+  winners: Winner[];
+  totalCount: number;
+}
 
 export type GetWinnersQueryParams = PaginationParams & SortableParams;
