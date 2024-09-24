@@ -61,7 +61,7 @@ const useGarageView = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, 'Name must be at least 2 characters')
-      .max(50, 'Name must be less than or equal to 50 characters')
+      .max(15, 'Name must be less than or equal to 15 characters')
       .required('Name is required'),
     color: Yup.string()
       .matches(/^#[0-9A-F]{6}$/i, 'Color must be in HEX format')
