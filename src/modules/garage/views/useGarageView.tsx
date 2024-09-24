@@ -150,6 +150,8 @@ const useGarageView = () => {
   };
 
   const handleUpdateSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
     if (selectedCarId === null) {
       alert('Вы не выбрали машину!');
       return;

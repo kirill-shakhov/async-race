@@ -5,8 +5,8 @@ import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
 import {clearRaceResult, setCars, setCurrentPage, setStartRace, setTotalCount} from "@moduleGarage/store";
 import {useEffect, useRef, useState} from "react";
 
-import {UiButton, UiInput, UiModal, UiPagination} from "@/shared/components";
-import {CarGarageRaceManager} from "@moduleGarage/components";
+import {UiButton, UiModal, UiPagination} from "@/shared/components";
+import {CarGarageRaceManager, FormControl} from "@moduleGarage/components";
 import {useCarEngineControl} from "@moduleGarage/hooks/useCarEngineControl.ts";
 import {
   useCreateWinnerMutation,
@@ -247,62 +247,23 @@ const GarageView = () => {
 
         <div className="forms-group flex flex-col gap-2 md:flex-row flex-wrap">
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2 md:flex-row">
-            <UiInput
-              name="name"
-              type="text"
-              placeholder="Enter car name"
-              value={createCarValues.name}
-              onChange={handleChange}
-              errors={createCarErrors.name}
-            />
-            <div>
-              <input
-                type="color"
-                name='color'
-                className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
-                value={createCarValues.color}
-                onChange={handleChange}
-                title="Choose your color"
-              />
-              {createCarErrors.color}
-            </div>
+          <FormControl
+            onSubmit={handleSubmit}
+            onChange={handleChange}
+            values={createCarValues}
+            errors={createCarErrors}
+            disabled={isRaceStarted}
+            submitButtonText='create'
+          />
 
-            <UiButton
-              type="submit"
-              disabled={isRaceStarted}
-            >Create</UiButton>
-          </form>
-
-          <form className="flex flex-col gap-2 md:flex-row" onSubmit={handleUpdateSubmit}>
-
-            <UiInput
-              name="name"
-              type="text"
-              placeholder="Enter car name"
-              value={updateCarValues.name}
-              onChange={handleUpdateChange}
-              errors={updateCarErrors.name}
-
-            />
-
-            <div>
-              <input
-                type="color"
-                name='color'
-                className="p-0.5 h-9 w-9 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
-                value={updateCarValues.color}
-                onChange={handleUpdateChange}
-                title="Choose your color"
-              />
-              {updateCarErrors.color}
-            </div>
-
-            <UiButton
-              type="submit"
-              disabled={isRaceStarted}
-            >Update</UiButton>
-          </form>
+          <FormControl
+            onSubmit={handleUpdateSubmit}
+            onChange={handleUpdateChange}
+            values={updateCarValues}
+            errors={updateCarErrors}
+            disabled={isRaceStarted}
+            submitButtonText='update'
+          />
         </div>
 
         <div className="flex mt-4 md:mt-0">
