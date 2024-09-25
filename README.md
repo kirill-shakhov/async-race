@@ -1,5 +1,8 @@
 # Task "Async Race"
 
+## Note:
+Please be aware that there might be a slight delay in processing requests at the start of the application. This is due to the use of a free-tier hosting service on Render for the backend, which may take a few seconds to wake up after being idle. Kindly allow a short time for the server to fully activate.
+
 ## Checklist \_\_\_/400 pts
 
 ## 🚀 UI Deployment
@@ -28,7 +31,7 @@
   - [x] Name of view ("Winners")
   - [x] Winners table
   - [x] Pagination
-- [ ] **Persistent State (30 points):** Ensure the view state remains consistent when navigating between views. This includes preserving page numbers and input states. For example, page number shouldn't be reset, input controls should contain that they contained before switching, etc.
+- [] **Persistent State (30 points):** Ensure the view state remains consistent when navigating between views. This includes preserving page numbers and input states. For example, page number shouldn't be reset, input controls should contain that they contained before switching, etc.
 
 ## Garage View (90 points)
 
