@@ -1,2 +1,2 @@
 export * from './UiInput.types.ts';
-export { default as UiInput } from './UiInput.tsx'
+export { default as UiInput } from './UiInput.tsx';

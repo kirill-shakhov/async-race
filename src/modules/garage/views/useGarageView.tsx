@@ -1,16 +1,23 @@
 import * as Yup from 'yup';
 
-import {CarWithoutId} from "@moduleGarage/static/types";
+import { CarWithoutId } from '@moduleGarage/static/types';
 import {
   useCreateCarMutation,
-  useUpdateCarMutation
-} from "@/services/api/controllers/asyncRaceApi/modules/carApi";
-import {useAppDispatch, useAppSelector} from "@/store/hooks.ts";
-import {ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
-import {createRandomCar} from "@/utils";
-import {Id} from "@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts";
-import useFetchAndUpdateCars from "@moduleGarage/hooks/useFetchAndUpdateCars.ts";
-import debounceFn from "debounce-fn";
+  useUpdateCarMutation,
+} from '@/services/api/controllers/asyncRaceApi/modules/carApi';
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
+import { createRandomCar } from '@/utils';
+import { Id } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
+import useFetchAndUpdateCars from '@moduleGarage/hooks/useFetchAndUpdateCars.ts';
+import debounceFn from 'debounce-fn';
 
 interface ErrorState {
   name: string;
@@ -27,22 +34,30 @@ const validationSchema = Yup.object().shape({
     .required('Color is required'),
 });
 
-
 const useGarageView = () => {
-
-  let selectedCar = useAppSelector(state => state.garage.selectedCar);
+  let selectedCar = useAppSelector((state) => state.garage.selectedCar);
   let selectedCarId = selectedCar ? selectedCar.id : null;
   const dispatch = useAppDispatch();
 
   const [createCar] = useCreateCarMutation();
   const [updateCar] = useUpdateCarMutation();
 
-
-
-  const [createCarValues, setCreateCarValues] = useState({name: '', color: '#ffffff'});
-  const [createCarErrors, setCreateCarErrors] = useState<ErrorState>({name: '', color: ''});
-  const [updateCarErrors, setUpdateCarErrors] = useState<ErrorState>({name: '', color: ''});
-  const [updateCarValues, setUpdateCarValues] = useState<CarWithoutId>({name: '', color: '#ffffff'});
+  const [createCarValues, setCreateCarValues] = useState({
+    name: '',
+    color: '#ffffff',
+  });
+  const [createCarErrors, setCreateCarErrors] = useState<ErrorState>({
+    name: '',
+    color: '',
+  });
+  const [updateCarErrors, setUpdateCarErrors] = useState<ErrorState>({
+    name: '',
+    color: '',
+  });
+  const [updateCarValues, setUpdateCarValues] = useState<CarWithoutId>({
+    name: '',
+    color: '#ffffff',
+  });
   const [isLoadingCreatedCars, setIsLoadingCreatedCars] = useState(false);
 
   const fetchAndUpdateCars = useFetchAndUpdateCars();
@@ -53,11 +68,14 @@ const useGarageView = () => {
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   const handleGenerateCars = async () => {
     setIsLoadingCreatedCars(true);
-    const randomCars: CarWithoutId[] = Array.from({length: 100}, createRandomCar);
+    const randomCars: CarWithoutId[] = Array.from(
+      { length: 100 },
+      createRandomCar,
+    );
     const promises = randomCars.map((car) => sendCarCreateRequest(car));
 
     try {
@@ -69,21 +87,24 @@ const useGarageView = () => {
       console.error(e);
       setIsLoadingCreatedCars(false);
     }
-  }
+  };
 
-  const debouncedChange = debounceFn((value: string) => {
-    setCreateCarValues(prevValues => ({
-      ...prevValues,
-      color: value,
-    }));
-  }, { wait: 300 });
+  const debouncedChange = debounceFn(
+    (value: string) => {
+      setCreateCarValues((prevValues) => ({
+        ...prevValues,
+        color: value,
+      }));
+    },
+    { wait: 300 },
+  );
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     setValues: Dispatch<SetStateAction<CarWithoutId>>,
     values: CarWithoutId,
     setErrors: Dispatch<SetStateAction<ErrorState>>,
-    errors: ErrorState
+    errors: ErrorState,
   ) => {
     const { name, value } = e.target;
 
@@ -105,39 +126,52 @@ const useGarageView = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e, setCreateCarValues, createCarValues, setCreateCarErrors, createCarErrors);
+    handleInputChange(
+      e,
+      setCreateCarValues,
+      createCarValues,
+      setCreateCarErrors,
+      createCarErrors,
+    );
   };
 
   const handleUpdateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e, setUpdateCarValues, updateCarValues, setUpdateCarErrors, updateCarErrors);
+    handleInputChange(
+      e,
+      setUpdateCarValues,
+      updateCarValues,
+      setUpdateCarErrors,
+      updateCarErrors,
+    );
   };
 
-
-  const sendUpdateCarRequest = async (id: Id, car: CarWithoutId): Promise<void> => {
+  const sendUpdateCarRequest = async (
+    id: Id,
+    car: CarWithoutId,
+  ): Promise<void> => {
     try {
-      await updateCar({id, updatedCar: car});
+      await updateCar({ id, updatedCar: car });
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleFormSubmit = async (
     e: FormEvent,
     values: CarWithoutId,
     setErrors: Dispatch<SetStateAction<ErrorState>>,
     action: (values: CarWithoutId) => Promise<void>,
-    resetValues: () => void
+    resetValues: () => void,
   ) => {
     e.preventDefault();
     try {
-      await validationSchema.validate(values, {abortEarly: false});
+      await validationSchema.validate(values, { abortEarly: false });
       await action(values);
 
       resetValues();
-      setErrors({name: '', color: ''});
+      setErrors({ name: '', color: '' });
 
       await fetchAndUpdateCars();
-
     } catch (err: any) {
       if (err instanceof Yup.ValidationError) {
         const validationErrors: Partial<ErrorState> = {};
@@ -151,14 +185,13 @@ const useGarageView = () => {
     }
   };
 
-
   const handleSubmit = async (e: FormEvent) => {
     await handleFormSubmit(
       e,
       createCarValues,
       setCreateCarErrors,
       sendCarCreateRequest,
-      () => setCreateCarValues({name: '', color: '#ffffff'})
+      () => setCreateCarValues({ name: '', color: '#ffffff' }),
     );
   };
 
@@ -175,10 +208,9 @@ const useGarageView = () => {
       updateCarValues,
       setUpdateCarErrors,
       () => sendUpdateCarRequest(selectedCarId!, updateCarValues),
-      () => setUpdateCarValues({name: '', color: '#ffffff'})
+      () => setUpdateCarValues({ name: '', color: '#ffffff' }),
     );
   };
-
 
   useEffect(() => {
     if (selectedCar) {
@@ -188,7 +220,6 @@ const useGarageView = () => {
       });
     }
   }, [selectedCar]);
-
 
   return {
     createCarValues,
@@ -203,7 +234,7 @@ const useGarageView = () => {
     updateCarErrors,
     handleUpdateChange,
     handleUpdateSubmit,
-  }
-}
+  };
+};
 
 export default useGarageView;

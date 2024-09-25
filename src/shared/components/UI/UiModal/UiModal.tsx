@@ -1,20 +1,24 @@
-import {FC, Fragment} from 'react';
-import {Dialog, DialogPanel, Transition, TransitionChild} from '@headlessui/react';
-import {UiModalProps} from "./UiModal.types.ts";
+import { FC, Fragment } from 'react';
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
+import { UiModalProps } from './UiModal.types.ts';
 
 interface UiModalProps {
-  setIsOpen?: (value: (((prevState: boolean) => boolean) | boolean)) => void
+  setIsOpen?: (value: ((prevState: boolean) => boolean) | boolean) => void;
 }
 
-const Modal: FC<UiModalProps> = (
-  {
-    isOpen,
-    setIsOpen,
-    children,
-  }) => {
+const Modal: FC<UiModalProps> = ({ isOpen, setIsOpen, children }) => {
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => setIsOpen(false)}
+      >
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
@@ -24,7 +28,7 @@ const Modal: FC<UiModalProps> = (
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"/>
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </TransitionChild>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -38,9 +42,7 @@ const Modal: FC<UiModalProps> = (
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel
-                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
-              >
+              <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 {children}
               </DialogPanel>
             </TransitionChild>

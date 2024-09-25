@@ -1,6 +1,6 @@
-import type {Car} from '@moduleGarage/static/types';
-import type {Winner} from "@moduleWinners/static/types";
-import type {PaginationParams, SortableParams} from "@/shared/types";
+import type { Car } from '@moduleGarage/static/types';
+import type { Winner } from '@moduleWinners/static/types';
+import type { PaginationParams, SortableParams } from '@/shared/types';
 
 export interface CarsResponse {
   cars: Car[];
@@ -20,7 +20,7 @@ export type Id = number;
 
 export enum CarStatus {
   STARTED = 'started',
-  STOPPED = 'stopped'
+  STOPPED = 'stopped',
 }
 
 export interface CarDriveData {

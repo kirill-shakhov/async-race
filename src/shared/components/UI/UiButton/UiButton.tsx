@@ -4,7 +4,7 @@ import { UiProgressCircular } from '../UiProgressCircular';
 import { useUiButton } from './useUiButton.ts';
 import { UiButtonSize, UiButtonTheme } from './UiButton.enums.ts';
 import { UiButtonProps } from './UiButton.types.ts';
-import classNames from "classnames";
+import classNames from 'classnames';
 
 const UiButton: FC<UiButtonProps> = ({
   children,
@@ -27,7 +27,6 @@ const UiButton: FC<UiButtonProps> = ({
   });
 
   const combinedClasses = classNames(rootClasses, className);
-
 
   return (
     <>

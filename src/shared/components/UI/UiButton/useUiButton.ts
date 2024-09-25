@@ -1,11 +1,11 @@
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 import classNames from 'classnames';
 
-import {UiButtonHookProps} from './index.ts';
-import {UiButtonSize, UiButtonTheme} from './UiButton.enums.ts';
+import { UiButtonHookProps } from './index.ts';
+import { UiButtonSize, UiButtonTheme } from './UiButton.enums.ts';
 
 export const useUiButton = (props: UiButtonHookProps) => {
-  const {size, theme, disabled, block} = props;
+  const { size, theme, disabled, block } = props;
 
   const rootClasses = useMemo(
     () =>
@@ -28,5 +28,5 @@ export const useUiButton = (props: UiButtonHookProps) => {
     [disabled, block, theme, size],
   );
 
-  return {rootClasses};
+  return { rootClasses };
 };

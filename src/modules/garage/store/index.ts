@@ -1,6 +1,6 @@
-import {Car} from "@moduleGarage/static/types";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {WInnerWithoutWins} from "@moduleWinners/static/types";
+import { Car } from '@moduleGarage/static/types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { WInnerWithoutWins } from '@moduleWinners/static/types';
 
 interface GarageState {
   cars: Car[] | null;
@@ -17,8 +17,8 @@ const initialState: GarageState = {
   currentPage: 1,
   selectedCar: null,
   isRaceStarted: false,
-  raceResult: []
-}
+  raceResult: [],
+};
 
 const garageSlice = createSlice({
   name: 'garage',
@@ -48,9 +48,9 @@ const garageSlice = createSlice({
     },
     clearRaceResult: (state) => {
       state.raceResult = [];
-    }
-  }
-})
+    },
+  },
+});
 
 export const {
   setCars,
@@ -62,7 +62,7 @@ export const {
 
   setStartRace,
   addToRaceResult,
-  clearRaceResult
+  clearRaceResult,
 } = garageSlice.actions;
 
 export default garageSlice.reducer;

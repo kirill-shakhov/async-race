@@ -1,4 +1,4 @@
-import {asyncRaceApi} from '@/services/api/controllers/asyncRaceApi';
+import { asyncRaceApi } from '@/services/api/controllers/asyncRaceApi';
 
 import {
   DEFAULT_GARAGE_CARS_PER_PAGE,
@@ -6,21 +6,27 @@ import {
 } from './CarApi.constants.ts';
 
 import {
-  CarDriveData, CarsQueryResponse,
+  CarDriveData,
+  CarsQueryResponse,
   CarStatus,
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
-import {Car, CarWithoutId} from '@moduleGarage/static/types';
-import {PaginationParams} from "@/shared/types";
+import { Car, CarWithoutId } from '@moduleGarage/static/types';
+import { PaginationParams } from '@/shared/types';
 
 export const carApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
     getCars: builder.query<CarsQueryResponse, PaginationParams>({
-      query: ({page = INITIAL_GARAGE_PAGE, limit = DEFAULT_GARAGE_CARS_PER_PAGE}) =>
-        `/garage?_page=${page}&_limit=${limit}`,
+      query: ({
+        page = INITIAL_GARAGE_PAGE,
+        limit = DEFAULT_GARAGE_CARS_PER_PAGE,
+      }) => `/garage?_page=${page}&_limit=${limit}`,
       transformResponse(cars: Car[], meta) {
-        return {cars, totalCount: Number(meta?.response?.headers.get('X-Total-Count'))}
-      }
+        return {
+          cars,
+          totalCount: Number(meta?.response?.headers.get('X-Total-Count')),
+        };
+      },
     }),
     getCar: builder.query<Car, Id>({
       query: (id) => `/garage/${id}`,
@@ -39,14 +45,17 @@ export const carApi = asyncRaceApi.injectEndpoints({
       }),
     }),
     updateCar: builder.mutation<Car, { id: Id; updatedCar: CarWithoutId }>({
-      query: ({id, updatedCar}) => ({
+      query: ({ id, updatedCar }) => ({
         url: `/garage/${id}`,
         method: 'PUT',
-        body: updatedCar
+        body: updatedCar,
       }),
     }),
-    startStopCarEngine: builder.mutation<CarDriveData, { id: Id; status: CarStatus }>({
-      query: ({id, status}) => ({
+    startStopCarEngine: builder.mutation<
+      CarDriveData,
+      { id: Id; status: CarStatus }
+    >({
+      query: ({ id, status }) => ({
         url: `/engine?id=${id}&status=${status}`,
         method: 'PATCH',
       }),
@@ -59,7 +68,7 @@ export const carApi = asyncRaceApi.injectEndpoints({
       transformResponse: (response: { success: boolean }, meta) => {
         return {
           ...response,
-          code: meta?.response?.status || 500
+          code: meta?.response?.status || 500,
         };
       },
     }),

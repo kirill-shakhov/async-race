@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Winner} from "@moduleWinners/static/types";
-import {SortDirection, SortOptions} from "@/shared/types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Winner } from '@moduleWinners/static/types';
+import { SortDirection, SortOptions } from '@/shared/types';
 
 interface WinnersState {
   winners: Winner[] | [];
@@ -8,7 +8,7 @@ interface WinnersState {
   sortingDirection: SortDirection;
   sortingOption: SortOptions;
   currentPage: number;
-  totalCount: number
+  totalCount: number;
 }
 
 const initialState: WinnersState = {
@@ -18,7 +18,7 @@ const initialState: WinnersState = {
   sortingOption: SortOptions.ID,
   currentPage: 1,
   totalCount: 0,
-}
+};
 
 const winnerSlice = createSlice({
   name: 'winners',
@@ -35,7 +35,9 @@ const winnerSlice = createSlice({
       state.winners = [];
     },
     removeWinner: (state, action: PayloadAction<number>) => {
-      state.winners = state.winners.filter((winner) => winner.id !== action.payload);
+      state.winners = state.winners.filter(
+        (winner) => winner.id !== action.payload,
+      );
     },
     setSortingOrder: (state, action: PayloadAction<SortDirection>) => {
       state.sortingDirection = action.payload;
@@ -48,9 +50,9 @@ const winnerSlice = createSlice({
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
 export const {
   setCurrentWinner,
@@ -63,7 +65,7 @@ export const {
   setSortingOrder,
 
   setTotalCount,
-  setCurrentPage
+  setCurrentPage,
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;

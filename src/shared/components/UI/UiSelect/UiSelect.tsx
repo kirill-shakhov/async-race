@@ -1,12 +1,11 @@
-import {ChangeEvent} from "react";
-import {UiSelectProps} from "./UiSelect.types.ts";
+import { ChangeEvent } from 'react';
+import { UiSelectProps } from './UiSelect.types.ts';
 
-
-const UiSelect = ({list, selectedValue, onChange}: UiSelectProps) => {
+const UiSelect = ({ list, selectedValue, onChange }: UiSelectProps) => {
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     onChange(value);
-  }
+  };
 
   return (
     <div className="flex flex-col space-y-4">
@@ -16,7 +15,9 @@ const UiSelect = ({list, selectedValue, onChange}: UiSelectProps) => {
         onChange={handleSelectChange}
       >
         {list.map((option, index) => (
-          <option key={index} value={option.value}>{option.text}</option>
+          <option key={index} value={option.value}>
+            {option.text}
+          </option>
         ))}
       </select>
     </div>

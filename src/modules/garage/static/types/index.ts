@@ -5,4 +5,3 @@ export interface Car {
 }
 
 export type CarWithoutId = Omit<Car, 'id'>;
-

@@ -1,8 +1,8 @@
 // store.ts
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import garageReducer from '@moduleGarage/store';
 import winnersReducer from '@moduleWinners/store';
-import {asyncRaceApi} from "@/services/api/controllers/asyncRaceApi";
+import { asyncRaceApi } from '@/services/api/controllers/asyncRaceApi';
 
 export const store = configureStore({
   reducer: {
@@ -11,10 +11,7 @@ export const store = configureStore({
     [asyncRaceApi.reducerPath]: asyncRaceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      asyncRaceApi.middleware
-    )
-  ,
+    getDefaultMiddleware().concat(asyncRaceApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

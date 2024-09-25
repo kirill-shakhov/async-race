@@ -1,1 +1,1 @@
-export {default as WinnersTable} from './WinnersTable';
+export { default as WinnersTable } from './WinnersTable';

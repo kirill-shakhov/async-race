@@ -1,1 +1,1 @@
-export {default as CarGarageRaceManager} from './CarGarageRaceManager.tsx';
+export { default as CarGarageRaceManager } from './CarGarageRaceManager.tsx';
