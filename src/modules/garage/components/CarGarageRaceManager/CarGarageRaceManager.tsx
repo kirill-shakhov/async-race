@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { UiButton } from '@/shared/components/UI/UiButton';
 import { PlayIcon, XMarkIcon } from '@heroicons/react/16/solid';
 import useCarGarageRaceManager from '@moduleGarage/components/CarGarageRaceManager/useCarGarageRaceManager.tsx';
-import { useAppSelector } from '@/store/hooks.ts';
 import { Car } from '@moduleGarage/components';
 import { useCarEngineControl } from '@moduleGarage/hooks/useCarEngineControl.ts';
+import { useAppSelector } from '@/store/hooks.ts';
+import { UiButton } from '@/shared/components/UI/UiButton';
 
 interface CarGarageRaceManagerProps {
   car: {
@@ -16,15 +16,15 @@ interface CarGarageRaceManagerProps {
   index: number;
 }
 
-const CarGarageRaceManager = ({
+function CarGarageRaceManager({
   car,
   setCarRef,
   index,
-}: CarGarageRaceManagerProps) => {
-  let selectedCar = useAppSelector((state) => state.garage.selectedCar);
+}: CarGarageRaceManagerProps) {
+  const selectedCar = useAppSelector((state) => state.garage.selectedCar);
   const isRaceStarted = useAppSelector((state) => state.garage.isRaceStarted);
 
-  let selectedCarId = selectedCar ? selectedCar.id : null;
+  const selectedCarId = selectedCar ? selectedCar.id : null;
   const { startCarEngine, stopCarEngine, engineStatus } = useCarEngineControl();
 
   const carRef = useRef<HTMLDivElement | null>(null);
@@ -102,6 +102,6 @@ const CarGarageRaceManager = ({
       </div>
     </div>
   );
-};
+}
 
 export default CarGarageRaceManager;
