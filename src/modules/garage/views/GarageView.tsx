@@ -22,7 +22,12 @@ import {
 } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi';
 import { useGetCarsQuery } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
 
-import { UiButton, UiModal, UiPagination } from '@/shared/components';
+import {
+  UiButton,
+  UiButtonTheme,
+  UiModal,
+  UiPagination,
+} from '@/shared/components';
 
 function GarageView() {
   const {
@@ -89,13 +94,16 @@ function GarageView() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (carsWithTotalCount && stateCars.length === 0) {
+    if (carsWithTotalCount && stateCars?.length === 0) {
       dispatch(setCars(carsWithTotalCount.cars));
     }
   }, [carsWithTotalCount, stateCars?.length, dispatch]);
 
   useEffect(() => {
-    if (carsWithTotalCount?.totalCount !== 0) {
+    if (
+      carsWithTotalCount?.totalCount &&
+      carsWithTotalCount?.totalCount !== 0
+    ) {
       dispatch(setTotalCount(carsWithTotalCount?.totalCount));
     }
   }, [carsWithTotalCount, dispatch]);
@@ -143,12 +151,14 @@ function GarageView() {
       // first car added is considered the actual winner, as it finished its animation first.
 
       const winner = raceResult[0]; // We treat the first car added as the actual winner
-      const car = stateCars.find((car) => car.id === winner.id);
+      const car = stateCars?.find((car) => car.id === winner.id);
 
-      setRaceWinner({
-        name: car.name,
-        time: winner.time,
-      });
+      if (car) {
+        setRaceWinner({
+          name: car.name,
+          time: winner.time,
+        });
+      }
 
       triggerGetWinner(winner.id)
         .unwrap()
@@ -235,7 +245,7 @@ function GarageView() {
             onClick={() => resetRace()}
             disabled={!isRaceStarted}
             className="max-h-[40px]"
-            theme="danger"
+            theme={UiButtonTheme.DANGER}
           >
             Reset <XMarkIcon className="ml-1 size-3" />
           </UiButton>
@@ -281,7 +291,7 @@ function GarageView() {
 
         {isLoading ? (
           <div>Loading...</div>
-        ) : stateCars.length > 0 ? (
+        ) : stateCars && stateCars?.length > 0 ? (
           stateCars.map((car, index) => (
             <div key={car.id}>
               <CarGarageRaceManager
@@ -294,6 +304,7 @@ function GarageView() {
         ) : (
           <div>No cars available</div>
         )}
+
         <div className="flex justify-end">
           <UiPagination
             pagesCount={pagesCount}

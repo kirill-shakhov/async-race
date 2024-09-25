@@ -4,7 +4,11 @@ import useCarGarageRaceManager from '@moduleGarage/components/CarGarageRaceManag
 import { Car } from '@moduleGarage/components';
 import { useCarEngineControl } from '@moduleGarage/hooks/useCarEngineControl.ts';
 import { useAppSelector } from '@/store/hooks.ts';
-import { UiButton } from '@/shared/components/UI/UiButton';
+import {
+  UiButton,
+  UiButtonSize,
+  UiButtonTheme,
+} from '@/shared/components/UI/UiButton';
 
 interface CarGarageRaceManagerProps {
   car: {
@@ -44,7 +48,7 @@ function CarGarageRaceManager({
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
               className={selectedCarId === car.id ? 'active' : ''}
-              size="sm"
+              size={UiButtonSize.SM}
               block
               disabled={engineStatus || isRaceStarted}
               onClick={() => selectCar(car)}
@@ -54,10 +58,10 @@ function CarGarageRaceManager({
 
             <UiButton
               onClick={() => sendCarDeleteRequest(+car.id)}
-              size="sm"
+              size={UiButtonSize.SM}
               block
               disabled={engineStatus || isRaceStarted}
-              theme="danger"
+              theme={UiButtonTheme.DANGER}
             >
               remove
             </UiButton>
@@ -66,7 +70,7 @@ function CarGarageRaceManager({
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
               onClick={() => startCarEngine(car.id, carRef.current!)}
-              size="sm"
+              size={UiButtonSize.SM}
               block
               disabled={engineStatus || isRaceStarted}
             >
@@ -75,10 +79,10 @@ function CarGarageRaceManager({
 
             <UiButton
               onClick={() => stopCarEngine(car.id, carRef.current!)}
-              size="sm"
+              size={UiButtonSize.SM}
               block
               disabled={!isRaceStarted && !engineStatus}
-              theme="danger"
+              theme={UiButtonTheme.DANGER}
             >
               stop
               <XMarkIcon className="ml-1 size-3" />

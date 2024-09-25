@@ -8,6 +8,7 @@ import { useLazyGetCarQuery } from '@/services/api/controllers/asyncRaceApi/modu
 
 import { UiSelect } from '@/shared/components';
 import { SortDirection, SortOptions } from '@/shared/types';
+import { WinnerWithInfo } from '@moduleWinners/static/types';
 
 function WinnersTable() {
   const [triggerGetCar] = useLazyGetCarQuery();
@@ -18,7 +19,7 @@ function WinnersTable() {
   );
   const sortingOption = useAppSelector((state) => state.winners.sortingOption);
 
-  const [winnersWithInfo, setWinnersWithInfo] = useState([]);
+  const [winnersWithInfo, setWinnersWithInfo] = useState<WinnerWithInfo[]>([]);
   const dispatch = useAppDispatch();
 
   const sortOptions = [
@@ -32,12 +33,14 @@ function WinnersTable() {
     { value: SortDirection.DESC, text: 'Descending' },
   ];
 
-  const handleSortByOrder = (value: SortDirection) => {
-    dispatch(setSortingOrder(value));
+  const handleSortByOrder = (value: string) => {
+    const order = value as SortDirection;
+    dispatch(setSortingOrder(order));
   };
 
-  const handleSortByOption = (value: SortOptions) => {
-    dispatch(setSortingOption(value));
+  const handleSortByOption = (value: string) => {
+    const option = value as SortOptions;
+    dispatch(setSortingOption(option));
   };
 
   useEffect(() => {
@@ -47,7 +50,7 @@ function WinnersTable() {
           const result = await triggerGetCar(winner.id).unwrap();
           return {
             ...winner,
-            carName: result.name,
+            name: result.name,
             color: result.color,
           };
         });
@@ -117,7 +120,7 @@ function WinnersTable() {
                     <Car color={winner.color} />
                   </th>
 
-                  <td className="px-6 py-4">{winner.carName}</td>
+                  <td className="px-6 py-4">{winner.name}</td>
 
                   <td className="px-6 py-4">
                     <div className="flex items-center">{winner.wins}</div>

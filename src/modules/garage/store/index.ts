@@ -8,7 +8,7 @@ interface GarageState {
   currentPage: number;
   selectedCar: Car | null;
   isRaceStarted: boolean;
-  raceResult: WInnerWithoutWins[] | [];
+  raceResult: WInnerWithoutWins[];
 }
 
 const initialState: GarageState = {
@@ -17,7 +17,7 @@ const initialState: GarageState = {
   currentPage: 1,
   selectedCar: null,
   isRaceStarted: false,
-  raceResult: [],
+  raceResult: [] as WInnerWithoutWins[],
 };
 
 const garageSlice = createSlice({

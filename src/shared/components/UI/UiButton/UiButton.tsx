@@ -31,10 +31,13 @@ function UiButton({
   return (
     <>
       {href ? (
+        /* eslint-enable react/jsx-props-no-spreading */
         <a className={combinedClasses} href={href} target="_blank" {...props}>
           {children}
         </a>
       ) : (
+        /* eslint-enable react/jsx-props-no-spreading */
+        /* eslint-disable react/jsx-props-no-spreading */
         <button
           className={combinedClasses}
           type={type ?? 'button'}
@@ -43,6 +46,7 @@ function UiButton({
         >
           {loading ? <UiProgressCircular /> : children}
         </button>
+        /* eslint-enable react/jsx-props-no-spreading */
       )}
     </>
   );

@@ -11,6 +11,7 @@ import {
   DEFAULT_WINNERS_PER_PAGE,
   INITIAL_WINNERS_PAGE,
 } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts';
+import { SortDirection, SortOptions } from '@/shared/types';
 
 export const winnerApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,8 +19,8 @@ export const winnerApi = asyncRaceApi.injectEndpoints({
       query: ({
         page = INITIAL_WINNERS_PAGE,
         limit = DEFAULT_WINNERS_PER_PAGE,
-        sort = 'id',
-        order = 'ASC',
+        sort = SortOptions.ID,
+        order = SortDirection.ASC,
       }: GetWinnersQueryParams) =>
         `/winners?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`,
       transformResponse(winners: Winner[], meta) {

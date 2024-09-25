@@ -24,7 +24,13 @@ const useCarAnimation = (): UseCarAnimationReturn => {
     };
   }>({});
 
-  const updateCarPosition = (timestamp, carRef, distance, duration, id) => {
+  const updateCarPosition = (
+    timestamp: number,
+    carRef: HTMLElement,
+    distance: number,
+    duration: number,
+    id: number,
+  ) => {
     if (!carRef || !carAnimations.current[id]) return;
 
     const { animationStartTime } = carAnimations.current[id];
@@ -39,7 +45,10 @@ const useCarAnimation = (): UseCarAnimationReturn => {
     carAnimations.current[id].progress = newProgress;
 
     const translateX = newProgress * distance;
+
+    /* eslint-disable no-param-reassign */
     carRef.style.transform = `translateX(${translateX}px)`;
+    /* eslint-enable no-param-reassign */
 
     if (newProgress < 1) {
       carAnimations.current[id].animationRequestId =
@@ -58,7 +67,12 @@ const useCarAnimation = (): UseCarAnimationReturn => {
     }
   };
 
-  const startAnimation = (carRef, distance, duration, id) => {
+  const startAnimation = (
+    carRef: HTMLElement,
+    distance: number,
+    duration: number,
+    id: number,
+  ) => {
     carAnimations.current[id] = {
       progress: 0,
       animationRequestId: null,
