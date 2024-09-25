@@ -91,11 +91,18 @@ const useGarageView = () => {
   };
 
   const debouncedChange = debounceFn(
-    (value: string) => {
-      setCreateCarValues((prevValues) => ({
-        ...prevValues,
-        color: value,
-      }));
+    (formType: 'create' | 'update', value: string) => {
+      if (formType === 'create') {
+        setCreateCarValues((prevValues) => ({
+          ...prevValues,
+          color: value,
+        }));
+      } else if (formType === 'update') {
+        setUpdateCarValues((prevValues) => ({
+          ...prevValues,
+          color: value,
+        }));
+      }
     },
     { wait: 300 },
   );
@@ -106,11 +113,12 @@ const useGarageView = () => {
     values: CarWithoutId,
     setErrors: Dispatch<SetStateAction<ErrorState>>,
     errors: ErrorState,
+    formType: 'create' | 'update'
   ) => {
     const { name, value } = e.target;
 
     if (name === 'color') {
-      debouncedChange(value);
+      debouncedChange(formType, value);
     } else {
       setValues({
         ...values,
@@ -133,6 +141,7 @@ const useGarageView = () => {
       createCarValues,
       setCreateCarErrors,
       createCarErrors,
+      'create',
     );
   };
 
@@ -143,6 +152,7 @@ const useGarageView = () => {
       updateCarValues,
       setUpdateCarErrors,
       updateCarErrors,
+      'update',
     );
   };
 
