@@ -1,26 +1,29 @@
+import { useEffect, useRef, useState } from 'react';
 import { PlayIcon, XMarkIcon } from '@heroicons/react/16/solid';
-import useGarageView from '@moduleGarage/views/useGarageView.tsx';
-import { useGetCarsQuery } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+
 import {
   clearRaceResult,
   setCars,
   setStartRace,
   setTotalCount,
 } from '@moduleGarage/store';
-import { useEffect, useRef, useState } from 'react';
-
-import { UiButton, UiModal, UiPagination } from '@/shared/components';
 import { CarGarageRaceManager, FormControl } from '@moduleGarage/components';
 import { useCarEngineControl } from '@moduleGarage/hooks/useCarEngineControl.ts';
+
+import useGarageView from '@moduleGarage/views/useGarageView.tsx';
+import useGarageViewPagination from '@moduleGarage/hooks/useGarageViewPagination.ts';
+
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import {
   useCreateWinnerMutation,
   useLazyGetWinnerQuery,
   useUpdateWinnerMutation,
 } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi';
-import useGarageViewPagination from '@moduleGarage/hooks/useGarageViewPagination.ts';
+import { useGetCarsQuery } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
 
-const GarageView = () => {
+import { UiButton, UiModal, UiPagination } from '@/shared/components';
+
+function GarageView() {
   const {
     createCarValues,
     handleChange,
@@ -41,10 +44,7 @@ const GarageView = () => {
     page: 1,
     limit: 7,
   });
-  const [
-    triggerGetWinner,
-    { data: winnerData, isLoading: winnerLoading, error: winnerError },
-  ] = useLazyGetWinnerQuery();
+  const [triggerGetWinner] = useLazyGetWinnerQuery();
   const [updateWinner] = useUpdateWinnerMutation();
   const [createWinner] = useCreateWinnerMutation();
   const { startCarEngine, stopCarEngine } = useCarEngineControl();
@@ -91,13 +91,13 @@ const GarageView = () => {
     if (carsWithTotalCount && stateCars.length === 0) {
       dispatch(setCars(carsWithTotalCount.cars));
     }
-  }, [carsWithTotalCount?.cars, stateCars?.length, dispatch]);
+  }, [carsWithTotalCount, stateCars?.length, dispatch]);
 
   useEffect(() => {
     if (carsWithTotalCount?.totalCount !== 0) {
       dispatch(setTotalCount(carsWithTotalCount?.totalCount));
     }
-  }, [carsWithTotalCount?.totalCount, dispatch]);
+  }, [carsWithTotalCount, dispatch]);
 
   const startRace = async () => {
     const promises = Object.keys(carRefs.current).map((index) => {
@@ -318,6 +318,6 @@ const GarageView = () => {
       </div>
     </div>
   );
-};
+}
 
 export default GarageView;

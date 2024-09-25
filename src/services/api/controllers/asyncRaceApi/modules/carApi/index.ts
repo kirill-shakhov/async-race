@@ -1,3 +1,5 @@
+import { Car, CarWithoutId } from '@moduleGarage/static/types';
+
 import { asyncRaceApi } from '@/services/api/controllers/asyncRaceApi';
 
 import {
@@ -11,7 +13,6 @@ import {
   CarStatus,
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
-import { Car, CarWithoutId } from '@moduleGarage/static/types';
 import { PaginationParams } from '@/shared/types';
 
 export const carApi = asyncRaceApi.injectEndpoints({

@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+import { useRef, useEffect } from 'react';
 import { addToRaceResult } from '@moduleGarage/store';
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 
 type UseCarAnimationReturn = {
   startAnimation: (

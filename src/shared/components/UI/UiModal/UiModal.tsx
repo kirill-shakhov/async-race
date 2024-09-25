@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { Fragment } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -7,11 +7,7 @@ import {
 } from '@headlessui/react';
 import { UiModalProps } from './UiModal.types.ts';
 
-interface UiModalProps {
-  setIsOpen?: (value: ((prevState: boolean) => boolean) | boolean) => void;
-}
-
-const Modal: FC<UiModalProps> = ({ isOpen, setIsOpen, children }) => {
+function Modal({ isOpen, setIsOpen, children }: UiModalProps) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
@@ -51,6 +47,6 @@ const Modal: FC<UiModalProps> = ({ isOpen, setIsOpen, children }) => {
       </Dialog>
     </Transition>
   );
-};
+}
 
 export default Modal;

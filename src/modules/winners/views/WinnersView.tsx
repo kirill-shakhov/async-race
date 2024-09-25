@@ -1,12 +1,12 @@
 import { WinnersTable } from '@moduleWinners/components';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import { clearWinners } from '@moduleWinners/store';
-import { UiPagination } from '@/shared/components';
 import useWinnersViewPagination from '@moduleWinners/hooks/useWinnersViewPagination.ts';
 import useFetchAndUpdateWinners from '@moduleWinners/hooks/useFetchAndUpdateWinners.ts';
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+import { UiPagination } from '@/shared/components';
 
-const WinnersView = () => {
+function WinnersView() {
   const winnersList = useAppSelector((state) => state.winners.winners);
   const { fetchAndUpdateWinners, isLoading } = useFetchAndUpdateWinners();
 
@@ -54,6 +54,6 @@ const WinnersView = () => {
       </div>
     </div>
   );
-};
+}
 
 export default WinnersView;

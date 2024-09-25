@@ -1,17 +1,16 @@
+import { Winner } from '@moduleWinners/static/types';
+
 import { asyncRaceApi } from '@/services/api/controllers/asyncRaceApi';
 
-import { Winner, WInnerWithoutId } from '@moduleWinners/static/types';
 import {
   GetWinnersQueryParams,
   Id,
   WinnersQueryResponse,
-  WinnersResponse,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
 import {
   DEFAULT_WINNERS_PER_PAGE,
   INITIAL_WINNERS_PAGE,
 } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts';
-import { Car } from '@moduleGarage/static/types';
 
 export const winnerApi = asyncRaceApi.injectEndpoints({
   endpoints: (builder) => ({

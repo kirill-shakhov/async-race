@@ -1,18 +1,19 @@
+import useFetchAndUpdateCars from '@moduleGarage/hooks/useFetchAndUpdateCars.ts';
+
 import { setSelectedCar } from '@moduleGarage/store';
+import { removeWinner } from '@moduleWinners/store';
+import { Car } from '@moduleGarage/static/types';
 import { useDeleteCarMutation } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 
-import { Car } from '@moduleGarage/static/types';
-import { removeWinner } from '@moduleWinners/store';
 import { useDeleteWinnerMutation } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi';
-import useFetchAndUpdateCars from '@moduleGarage/hooks/useFetchAndUpdateCars.ts';
 
 const useCarGarageRaceManager = () => {
   const dispatch = useAppDispatch();
   const [deleteCar] = useDeleteCarMutation();
 
-  let currentPage = useAppSelector((state) => state.garage.currentPage);
+  const currentPage = useAppSelector((state) => state.garage.currentPage);
   const [deleteWinner] = useDeleteWinnerMutation();
   const fetchAndUpdateCars = useFetchAndUpdateCars();
 

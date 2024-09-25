@@ -1,15 +1,14 @@
-import { FC } from 'react';
 import { FormControlProps } from './FormControl.types.ts';
 import { UiButton, UiInput } from '@/shared/components';
 
-const FormControl: FC<FormControlProps> = ({
+function FormControl({
   onSubmit,
   onChange,
   values,
   errors,
   disabled,
   submitButtonText,
-}) => {
+}: FormControlProps) {
   return (
     <form
       onSubmit={onSubmit}
@@ -40,6 +39,6 @@ const FormControl: FC<FormControlProps> = ({
       </UiButton>
     </form>
   );
-};
+}
 
 export default FormControl;

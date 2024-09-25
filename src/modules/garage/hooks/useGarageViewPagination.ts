@@ -1,15 +1,15 @@
 import { setCurrentPage, setStartRace } from '@moduleGarage/store';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import useFetchAndUpdateCars from '@moduleGarage/hooks/useFetchAndUpdateCars.ts';
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 
 const useGarageViewPagination = () => {
   const fetchAndUpdateCars = useFetchAndUpdateCars();
   const dispatch = useAppDispatch();
 
   const stateTotalCount = useAppSelector((state) => state.garage.totalCount);
-  let currentPage = useAppSelector((state) => state.garage.currentPage);
+  const currentPage = useAppSelector((state) => state.garage.currentPage);
 
-  let pagesCount = Math.ceil(stateTotalCount / 7);
+  const pagesCount = Math.ceil(stateTotalCount / 7);
 
   const handlePageClick = async (page: number): Promise<void> => {
     if (page === currentPage) return;

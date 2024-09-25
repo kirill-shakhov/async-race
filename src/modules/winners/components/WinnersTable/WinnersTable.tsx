@@ -1,10 +1,13 @@
-import { Car } from '@moduleGarage/components';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import { useEffect, useState } from 'react';
+import { setSortingOption, setSortingOrder } from '@moduleWinners/store';
+
+import { Car } from '@moduleGarage/components';
+
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import { useLazyGetCarQuery } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
+
 import { UiSelect } from '@/shared/components';
 import { SortDirection, SortOptions } from '@/shared/types';
-import { setSortingOption, setSortingOrder } from '@moduleWinners/store';
 
 const WinnersTable = () => {
   const [triggerGetCar] = useLazyGetCarQuery();

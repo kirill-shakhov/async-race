@@ -1,6 +1,6 @@
-import WinnersView from '../views/WinnersView.tsx';
-
 import { RouteObject } from 'react-router-dom';
+
+import WinnersView from '../views/WinnersView.tsx';
 
 export default [
   {

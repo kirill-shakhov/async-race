@@ -5,7 +5,7 @@ export const asyncRaceApi = createApi({
   reducerPath: 'asyncRaceApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_URL}`,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers) => {
       headers.set('Content-Type', 'application/json');
       return headers;
     },

@@ -1,5 +1,4 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/16/solid';
-import { FC } from 'react';
 
 interface UiPaginationProps {
   pagesCount: number;
@@ -9,18 +8,19 @@ interface UiPaginationProps {
   handleNextPage: () => void;
 }
 
-const UiPagination: FC<UiPaginationProps> = ({
+function UiPagination({
   pagesCount,
   currentPage,
   handlePageClick,
   handlePreviousPage,
   handleNextPage,
-}) => {
+}: UiPaginationProps) {
   return (
     <nav aria-label="Page navigation example">
       <ul className="flex items-center -space-x-px h-8 text-sm">
         <li>
           <button
+            type="button"
             onClick={handlePreviousPage}
             className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
@@ -31,6 +31,7 @@ const UiPagination: FC<UiPaginationProps> = ({
         {Array.from({ length: pagesCount }, (_, i) => i + 1).map((page) => (
           <li key={page}>
             <button
+              type="button"
               onClick={() => handlePageClick(page)}
               aria-current={page === currentPage ? 'page' : undefined}
               className={`flex items-center justify-center px-3 h-8 leading-tight ${
@@ -45,6 +46,7 @@ const UiPagination: FC<UiPaginationProps> = ({
         ))}
         <li>
           <button
+            type="button"
             onClick={handleNextPage}
             className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
@@ -55,6 +57,6 @@ const UiPagination: FC<UiPaginationProps> = ({
       </ul>
     </nav>
   );
-};
+}
 
 export default UiPagination;

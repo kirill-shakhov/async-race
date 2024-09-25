@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import {
   clearCars,
   setCars,
   setCurrentPage,
   setTotalCount,
 } from '@moduleGarage/store';
+
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import { useLazyGetCarsQuery } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
 import { DEFAULT_GARAGE_CARS_PER_PAGE } from '@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts';
 

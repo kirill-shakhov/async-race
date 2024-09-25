@@ -1,12 +1,12 @@
-import { FC } from 'react';
+import classNames from 'classnames';
+
 import { UiProgressCircular } from '../UiProgressCircular';
 
 import { useUiButton } from './useUiButton.ts';
 import { UiButtonSize, UiButtonTheme } from './UiButton.enums.ts';
 import { UiButtonProps } from './UiButton.types.ts';
-import classNames from 'classnames';
 
-const UiButton: FC<UiButtonProps> = ({
+function UiButton({
   children,
   href,
   loading,
@@ -17,7 +17,7 @@ const UiButton: FC<UiButtonProps> = ({
   theme = UiButtonTheme.PRIMARY,
   className,
   ...props
-}) => {
+}: UiButtonProps) {
   const { rootClasses } = useUiButton({
     loading,
     disabled,
@@ -46,6 +46,6 @@ const UiButton: FC<UiButtonProps> = ({
       )}
     </>
   );
-};
+}
 
 export default UiButton;

@@ -1,8 +1,7 @@
-import { FC } from 'react';
 import { UiInputProps } from './UiInput.types.ts';
 import { useUiInput } from './useUiInput.tsx';
 
-const UiInput: FC<UiInputProps> = ({
+function UiInput({
   label,
   name,
   type,
@@ -14,7 +13,7 @@ const UiInput: FC<UiInputProps> = ({
   onChange,
   onBlur,
   errors,
-}) => {
+}: UiInputProps) {
   const { rootClasses } = useUiInput({ readOnly, disabled, errors });
 
   return (
@@ -46,6 +45,6 @@ const UiInput: FC<UiInputProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default UiInput;

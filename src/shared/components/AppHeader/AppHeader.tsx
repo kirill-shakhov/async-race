@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const AppHeader = () => {
+function AppHeader() {
   return (
     <header className="mt-4">
       <nav className="flex justify-between">
@@ -18,6 +18,6 @@ const AppHeader = () => {
       </nav>
     </header>
   );
-};
+}
 
 export default AppHeader;

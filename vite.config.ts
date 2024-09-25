@@ -14,4 +14,4 @@ export default defineConfig({
     },
     extensions: ['.tsx', '.ts', '.jsx', '.js']
   }
-})
+});

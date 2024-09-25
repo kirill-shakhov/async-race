@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { UiSelectProps } from './UiSelect.types.ts';
 
-const UiSelect = ({ list, selectedValue, onChange }: UiSelectProps) => {
+function UiSelect({ list, selectedValue, onChange }: UiSelectProps) {
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     onChange(value);
@@ -22,6 +22,6 @@ const UiSelect = ({ list, selectedValue, onChange }: UiSelectProps) => {
       </select>
     </div>
   );
-};
+}
 
 export default UiSelect;

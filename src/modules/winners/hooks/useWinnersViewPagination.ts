@@ -1,6 +1,7 @@
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
 import useFetchAndUpdateWinners from '@moduleWinners/hooks/useFetchAndUpdateWinners.ts';
 import { setCurrentPage } from '@moduleWinners/store';
+import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+
 import { DEFAULT_WINNERS_PER_PAGE } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts';
 
 const useWinnersViewPagination = () => {
@@ -8,8 +9,8 @@ const useWinnersViewPagination = () => {
   const dispatch = useAppDispatch();
 
   const stateTotalCount = useAppSelector((state) => state.winners.totalCount);
-  let currentPage = useAppSelector((state) => state.winners.currentPage);
-  let pagesCount = Math.ceil(stateTotalCount / DEFAULT_WINNERS_PER_PAGE);
+  const currentPage = useAppSelector((state) => state.winners.currentPage);
+  const pagesCount = Math.ceil(stateTotalCount / DEFAULT_WINNERS_PER_PAGE);
 
   const handlePageClick = async (page: number): Promise<void> => {
     if (page === currentPage) return;

@@ -1,15 +1,16 @@
 import { useCallback } from 'react';
+import {
+  setTotalCount,
+  setWinners,
+  setCurrentPage,
+} from '@moduleWinners/store';
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
-import { setTotalCount } from '@moduleWinners/store';
 import { DEFAULT_WINNERS_PER_PAGE } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi/WinnersApi.constants.ts';
 import { useLazyGetWinnersQuery } from '@/services/api/controllers/asyncRaceApi/modules/winnerApi';
-import { setWinners } from '@moduleWinners/store';
-import { setCurrentPage } from '@moduleWinners/store';
 
 const useFetchAndUpdateWinners = () => {
   const dispatch = useAppDispatch();
-  const [triggerGetWinners, { data: winners, isLoading }] =
-    useLazyGetWinnersQuery();
+  const [triggerGetWinners, { isLoading }] = useLazyGetWinnersQuery();
   const currentPage = useAppSelector((state) => state.winners.currentPage);
   const sortingDirection = useAppSelector(
     (state) => state.winners.sortingDirection,

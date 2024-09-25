@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import useCarAnimation from '@moduleGarage/hooks/useCarAnimation.ts';
+
 import {
   CarStatus,
   Id,
@@ -6,9 +10,6 @@ import {
   useDriveCarMutation,
   useStartStopCarEngineMutation,
 } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
-import { useState } from 'react';
-import useCarAnimation from '@moduleGarage/hooks/useCarAnimation.ts';
-import { useAppSelector } from '@/store/hooks.ts';
 
 export const useCarEngineControl = () => {
   const [startStopCarEngine] = useStartStopCarEngineMutation();
