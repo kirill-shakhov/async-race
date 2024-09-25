@@ -235,7 +235,7 @@ function GarageView() {
 
   return (
     <div className="garage-view flex flex-col gap-y-14">
-      <div className="garage-view__pannel flex flex-col md:flex-row justify-between flex-wrap md:gap-2">
+      <div className="garage-view__pannel flex flex-col md:flex-row justify-between flex-wrap gap-4">
         <div className="flex gap-2 flex-row">
           <UiButton
             onClick={() => race()}
@@ -255,7 +255,7 @@ function GarageView() {
           </UiButton>
         </div>
 
-        <div className="forms-group flex flex-col gap-2 md:flex-row flex-wrap">
+        <div className="forms-group flex flex-col gap-4 md:flex-row flex-wrap">
           <FormControl
             onSubmit={handleSubmit}
             onChange={handleChange}
