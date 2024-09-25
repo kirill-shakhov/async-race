@@ -28,6 +28,10 @@ import {
   UiModal,
   UiPagination,
 } from '@/shared/components';
+import {
+  DEFAULT_GARAGE_CARS_PER_PAGE,
+  INITIAL_GARAGE_PAGE
+} from "@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts";
 
 function GarageView() {
   const {
@@ -47,8 +51,8 @@ function GarageView() {
   } = useGarageView();
 
   const { data: carsWithTotalCount, isLoading } = useGetCarsQuery({
-    page: 1,
-    limit: 7,
+    page: INITIAL_GARAGE_PAGE,
+    limit: DEFAULT_GARAGE_CARS_PER_PAGE,
   });
   const [triggerGetWinner] = useLazyGetWinnerQuery();
   const [updateWinner] = useUpdateWinnerMutation();
