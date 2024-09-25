@@ -9,7 +9,7 @@ import { useLazyGetCarQuery } from '@/services/api/controllers/asyncRaceApi/modu
 import { UiSelect } from '@/shared/components';
 import { SortDirection, SortOptions } from '@/shared/types';
 
-const WinnersTable = () => {
+function WinnersTable() {
   const [triggerGetCar] = useLazyGetCarQuery();
 
   const winnersList = useAppSelector((state) => state.winners.winners);
@@ -133,6 +133,6 @@ const WinnersTable = () => {
       </div>
     </div>
   );
-};
+}
 
 export default WinnersTable;

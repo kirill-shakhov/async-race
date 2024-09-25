@@ -1,11 +1,12 @@
 import * as Yup from 'yup';
 
 import { CarWithoutId } from '@moduleGarage/static/types';
+import debounceFn from 'debounce-fn';
 import {
   useCreateCarMutation,
   useUpdateCarMutation,
 } from '@/services/api/controllers/asyncRaceApi/modules/carApi';
-import { useAppDispatch, useAppSelector } from '@/store/hooks.ts';
+import { useAppSelector } from '@/store/hooks.ts';
 import {
   ChangeEvent,
   Dispatch,
@@ -17,7 +18,7 @@ import {
 import { createRandomCar } from '@/utils';
 import { Id } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
 import useFetchAndUpdateCars from '@moduleGarage/hooks/useFetchAndUpdateCars.ts';
-import debounceFn from 'debounce-fn';
+import { toast } from 'react-toastify';
 
 interface ErrorState {
   name: string;
@@ -37,7 +38,6 @@ const validationSchema = Yup.object().shape({
 const useGarageView = () => {
   let selectedCar = useAppSelector((state) => state.garage.selectedCar);
   let selectedCarId = selectedCar ? selectedCar.id : null;
-  const dispatch = useAppDispatch();
 
   const [createCar] = useCreateCarMutation();
   const [updateCar] = useUpdateCarMutation();
@@ -83,6 +83,7 @@ const useGarageView = () => {
       await fetchAndUpdateCars();
 
       setIsLoadingCreatedCars(false);
+      toast.success('100 cars have been successfully created!');
     } catch (e) {
       console.error(e);
       setIsLoadingCreatedCars(false);
@@ -172,7 +173,7 @@ const useGarageView = () => {
       setErrors({ name: '', color: '' });
 
       await fetchAndUpdateCars();
-    } catch (err: any) {
+    } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const validationErrors: Partial<ErrorState> = {};
         err.inner.forEach((error) => {
@@ -199,7 +200,7 @@ const useGarageView = () => {
     e.preventDefault();
 
     if (selectedCarId === null) {
-      alert('Вы не выбрали машину!');
+      toast.error("You haven't selected a car!");
       return;
     }
 

@@ -31,7 +31,7 @@ function UiButton({
   return (
     <>
       {href ? (
-        <a className={combinedClasses} href={href} target={'_blank'} {...props}>
+        <a className={combinedClasses} href={href} target="_blank" {...props}>
           {children}
         </a>
       ) : (

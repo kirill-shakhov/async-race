@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { PlayIcon, XMarkIcon } from '@heroicons/react/16/solid';
 
+import { toast } from 'react-toastify';
 import {
   clearRaceResult,
   setCars,
@@ -110,7 +111,6 @@ function GarageView() {
 
     try {
       await Promise.allSettled(promises);
-      console.log('All cars have started racing!');
       setIsRaceFinished(true);
     } catch (error) {
       console.error('Error while starting cars:', error);
@@ -119,16 +119,17 @@ function GarageView() {
 
   const race = () => {
     dispatch(setStartRace(true));
+    toast.info('The race has begun! Get ready for the thrill');
   };
 
   useEffect(() => {
     if (isRaceStarted) {
       startRace()
         .then(() => {
-          console.log('Race completed!');
+          toast.success('Race completed!');
         })
         .catch((error) => {
-          console.error('Error during the race:', error);
+          toast.error('Error during the race:', error);
         });
     }
   }, [isRaceStarted]);
@@ -152,23 +153,22 @@ function GarageView() {
       triggerGetWinner(winner.id)
         .unwrap()
         .then((data) => {
-          console.log('Winner data:', data);
           updateWinner({
             id: data.id,
             time: Math.min(data.time, winner.time),
             wins: data.wins + 1,
           })
             .unwrap()
-            .then((updatedData) => {
-              console.log('Winner updated successfully:', updatedData);
+            .then(() => {
+              toast.success('Winner updated successfully');
             })
             .catch((updateError) => {
-              console.error('Error updating winner:', updateError);
+              toast.error('Error updating winner:', updateError);
             });
         })
         .catch((error) => {
           if (error.status === 404) {
-            console.log(
+            toast.error(
               'Winner not found in the database, creating new winner...',
             );
             createWinner({
@@ -177,8 +177,8 @@ function GarageView() {
               wins: 1,
             })
               .unwrap()
-              .then((createdData) => {
-                console.log('Winner created successfully:', createdData);
+              .then(() => {
+                toast.success('Winner created successfully');
               })
               .catch((createError) => {
                 console.error('Error creating winner:', createError);
@@ -187,8 +187,6 @@ function GarageView() {
             console.error('Error fetching winner data:', error);
           }
         });
-
-      console.log('Winner:', winner);
     }
   }, [
     isRaceFinished,

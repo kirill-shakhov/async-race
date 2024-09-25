@@ -2,10 +2,13 @@ import { useState } from 'react';
 
 import useCarAnimation from '@moduleGarage/hooks/useCarAnimation.ts';
 
+import { toast } from 'react-toastify';
+
 import {
   CarStatus,
   Id,
 } from '@/services/api/controllers/asyncRaceApi/asyncRaceApi.types.ts';
+
 import {
   useDriveCarMutation,
   useStartStopCarEngineMutation,
@@ -40,8 +43,8 @@ export const useCarEngineControl = () => {
 
         const driveResponse = await driveCar(id);
         if (!driveResponse?.data?.success) {
-          console.log('сломалась');
           stopAnimation(id);
+          toast.error(`Car number ${id} broke down!`);
         }
       }
     } catch (e) {

@@ -81,7 +81,7 @@ const useCarAnimation = (): UseCarAnimationReturn => {
         animationStartTime: null,
       };
     } else {
-      console.log('No active animation found for car with id: ${id}');
+      console.log(`No active animation found for car with id: ${id}`);
     }
   };
 

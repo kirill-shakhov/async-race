@@ -20,14 +20,14 @@ function UiInput({
     <div>
       {label && (
         <label
-          className={'block text-sm font-medium leading-6 text-gray-900'}
+          className="block text-sm font-medium leading-6 text-gray-900"
           htmlFor={name}
         >
           {label}
         </label>
       )}
 
-      <div className={'ui-input-wrap'}>
+      <div className="ui-input-wrap">
         <input
           type={type}
           name={name}
@@ -41,7 +41,7 @@ function UiInput({
           className={rootClasses}
         />
 
-        <div className={'text-red-500'}>{errors && errors}</div>
+        <div className="text-red-500">{errors && errors}</div>
       </div>
     </div>
   );
