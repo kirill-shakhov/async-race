@@ -105,7 +105,7 @@ function CarGarageRaceManager({
         <img
           src="https://cloud-read.s3.eu-west-3.amazonaws.com/books-previews/8740b4a3-c20b-45cd-a55d-49e12ec3566d.jpg"
           alt="finish"
-          className="CarGarageRaceManager__image-finish absolute top-0 right-0 h-full"
+          className="CarGarageRaceManager__image-finish absolute top-0 right-0 h-full z-[-1]"
         />
       </div>
     </div>
