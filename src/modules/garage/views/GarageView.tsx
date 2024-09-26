@@ -30,8 +30,8 @@ import {
 } from '@/shared/components';
 import {
   DEFAULT_GARAGE_CARS_PER_PAGE,
-  INITIAL_GARAGE_PAGE
-} from "@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts";
+  INITIAL_GARAGE_PAGE,
+} from '@/services/api/controllers/asyncRaceApi/modules/carApi/CarApi.constants.ts';
 
 function GarageView() {
   const {
@@ -89,6 +89,12 @@ function GarageView() {
       carRefs.current[index] = { id, ref };
     }
   };
+
+  useEffect(() => {
+    toast.info(
+      'Please be aware that there might be a slight delay in processing requests at the start of the application.',
+    );
+  }, []);
 
   useEffect(() => {
     return () => {

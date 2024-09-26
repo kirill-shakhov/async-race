@@ -47,7 +47,11 @@ function CarGarageRaceManager({
         <div className="flex gap-2">
           <div className="buttons-group flex flex-col gap-2">
             <UiButton
-              className={selectedCarId === car.id ? 'bg-gray-200 text-black border-gray-300 hover:bg-gray-200' : ''}
+              className={
+                selectedCarId === car.id
+                  ? 'bg-gray-200 text-black border-gray-300 hover:bg-gray-200'
+                  : ''
+              }
               size={UiButtonSize.SM}
               block
               disabled={engineStatus || isRaceStarted}

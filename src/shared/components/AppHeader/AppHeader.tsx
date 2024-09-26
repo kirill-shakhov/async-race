@@ -23,9 +23,7 @@ function AppHeader() {
           </li>
         </ul>
 
-        <h1 className="text-xl font-bold text-gray-800">
-          Async Race
-        </h1>
+        <h1 className="text-xl font-bold text-gray-800">Async Race</h1>
       </nav>
     </header>
   );

@@ -113,7 +113,7 @@ const useGarageView = () => {
     values: CarWithoutId,
     setErrors: Dispatch<SetStateAction<ErrorState>>,
     errors: ErrorState,
-    formType: 'create' | 'update'
+    formType: 'create' | 'update',
   ) => {
     const { name, value } = e.target;
 
