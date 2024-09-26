@@ -16,8 +16,8 @@ function UiPagination({
   handleNextPage,
 }: UiPaginationProps) {
   return (
-    <nav aria-label="Page navigation example">
-      <ul className="flex items-center -space-x-px h-8 text-sm">
+    <nav aria-label="Page navigation">
+      <ul className="flex items-center -space-x-px h-8 text-sm flex-wrap">
         <li>
           <button
             type="button"
