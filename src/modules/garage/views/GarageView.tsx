@@ -137,7 +137,7 @@ function GarageView() {
 
   const race = () => {
     dispatch(setStartRace(true));
-    toast.info('The race has begun! Get ready for the thrill');
+    toast.success('The race has begun! Get ready for the thrill');
   };
 
   useEffect(() => {
