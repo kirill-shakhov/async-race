@@ -226,7 +226,13 @@ const useGarageView = () => {
       setUpdateCarErrors,
       () => sendUpdateCarRequest(selectedCarId!, updateCarValues),
       () => setUpdateCarValues({ name: '', color: '#ffffff' }),
-    );
+    )
+      .then(() => {
+        toast.success('The car was successfully updated');
+      })
+      .catch(() => {
+        toast.success('error when updating car');
+      });
   };
 
   useEffect(() => {
