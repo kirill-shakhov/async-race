@@ -49,7 +49,7 @@ function CarGarageRaceManager({
             <UiButton
               className={
                 selectedCarId === car.id
-                  ? 'bg-gray-200 text-black border-gray-300 hover:bg-gray-200'
+                  ? 'bg-indigo-900 text-black border-indigo-900 hover:bg-indigo-900'
                   : ''
               }
               size={UiButtonSize.SM}
