@@ -203,7 +203,13 @@ const useGarageView = () => {
       setCreateCarErrors,
       sendCarCreateRequest,
       () => setCreateCarValues({ name: '', color: '#ffffff' }),
-    );
+    )
+      .then(() => {
+        toast.success('The car was successfully created');
+      })
+      .catch(() => {
+        toast.success('error when creating car');
+      });
   };
 
   const handleUpdateSubmit = async (e: FormEvent) => {
