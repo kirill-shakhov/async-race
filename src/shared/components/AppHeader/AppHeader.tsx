@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function AppHeader() {
   return (
@@ -6,20 +6,28 @@ function AppHeader() {
       <nav className="flex justify-between items-center">
         <ul className="flex justify-center gap-4 sm:justify-start">
           <li>
-            <Link
+            <NavLink
               to="/garage"
-              className="text-gray-800 hover:text-blue-700 font-semibold"
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-blue-800 font-semibold'
+                  : 'text-gray-800  font-semibold'
+              }
             >
               Garage
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/winners"
-              className="text-gray-800 hover:text-blue-700 font-semibold"
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-blue-800 font-semibold'
+                  : 'text-gray-800  font-semibold'
+              }
             >
               Winners
-            </Link>
+            </NavLink>
           </li>
         </ul>
 
