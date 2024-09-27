@@ -4,8 +4,8 @@ function WinnersTableSkeleton() {
   return (
     <div className="flex flex-col gap-y-7 animate-pulse">
       <div className="flex justify-end gap-4">
-        <div className="h-10 bg-gray-200 rounded-lg dark:bg-gray-700 w-32"></div>
-        <div className="h-10 bg-gray-200 rounded-lg dark:bg-gray-700 w-32"></div>
+        <div className="h-10 bg-gray-200 rounded-lg dark:bg-gray-700 w-32" />
+        <div className="h-10 bg-gray-200 rounded-lg dark:bg-gray-700 w-32" />
       </div>
 
       <div className="flex flex-col gap-y-7">
@@ -14,19 +14,19 @@ function WinnersTableSkeleton() {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full"></div>
+                  <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full" />
                 </th>
               </tr>
             </thead>

@@ -60,7 +60,7 @@ const useCarAnimation = (): UseCarAnimationReturn => {
     if (isRaceStarted && newProgress >= 1) {
       dispatch(
         addToRaceResult({
-          id: id,
+          id,
           time: +(duration / 1000).toFixed(2),
         }),
       );
@@ -100,8 +100,10 @@ const useCarAnimation = (): UseCarAnimationReturn => {
   };
 
   useEffect(() => {
+    const currentCarAnimations = carAnimations.current;
+
     return () => {
-      Object.keys(carAnimations.current).forEach((id) =>
+      Object.keys(currentCarAnimations).forEach((id) =>
         stopAnimation(Number(id)),
       );
     };
