@@ -1,4 +1,4 @@
-import { WinnersTable } from '@moduleWinners/components';
+import { WinnersTable, WinnersTableSkeleton } from '@moduleWinners/components';
 import { useEffect } from 'react';
 import { clearWinners } from '@moduleWinners/store';
 import useWinnersViewPagination from '@moduleWinners/hooks/useWinnersViewPagination.ts';
@@ -34,7 +34,7 @@ function WinnersView() {
   return (
     <div className="flex flex-col gap-y-14">
       {isLoading ? (
-        <div className="flex justify-center">loading</div>
+        <WinnersTableSkeleton />
       ) : winnersList && winnersList.length > 0 ? (
         <WinnersTable />
       ) : (
